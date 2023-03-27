@@ -14,7 +14,7 @@
                         <small class="card-text">
                             Jumlah Pengguna
                         </small>
-                        <h5 class="m-0">45</h5>
+                        <h5 class="m-0">{{ $jumlahPengguna }}</h5>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                         <small class="card-text">
                             Jumlah Katalog
                         </small>
-                        <h5 class="m-0">25</h5>
+                        <h5 class="m-0">{{ $jumlahKatalog }}</h5>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                         <small class="card-text">
                             Jumlah Pesanan
                         </small>
-                        <h5 class="m-0">189</h5>
+                        <h5 class="m-0">{{ $jumlahPesanan }}</h5>
                     </div>
                 </div>
             </div>
@@ -44,13 +44,13 @@
                         <small class="card-text">
                             Total Transaksi
                         </small>
-                        <h5 class="m-0">Rp 43.000.000,00</h5>
+                        <h5 class="m-0">Rp {{ number_format($totalTransaksi) }}</h5>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-8">
                 <div class="card border-0">
                     <div class="card-body">
@@ -71,12 +71,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- /.row -->
 
     </div>
     <!-- /.container-fluid -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         const penjualan_mingguan = document.getElementById('penjualan_mingguan');
@@ -117,5 +117,5 @@
                 }
             }
         });
-    </script>
+    </script> --}}
 @endsection

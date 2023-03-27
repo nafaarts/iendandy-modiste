@@ -81,26 +81,20 @@
                             <a class="nav-link active" aria-current="page" href="/">Beranda</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Pesan Kustom</a>
+                            <a class="nav-link" href="{{ route('buat.pesanan-kostum') }}">Pesan Kustom</a>
                         </li>
+                        @auth
+                            <li class="nav-item">
+                                @can('is-admin')
+                                    <a class="nav-link" href="{{ route('dashboard') }}">Admin</a>
+                                @else
+                                    <a class="nav-link" href="{{ route('profil') }}">Profil Saya</a>
+                                @endcan
+                            </li>
+                        @endauth
                         <li class="nav-item">
                             <a class="nav-link" href="/tentang">Tentang</a>
                         </li>
-                        @auth
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <i class="fas fa-fw fa-user"></i>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    @can('is-admin')
-                                        <li><a class="dropdown-item" href="{{ route('dashboard') }}">Admin</a></li>
-                                    @else
-                                        <li><a class="dropdown-item" href="{{ route('profil') }}">Profil</a></li>
-                                    @endcan
-                                </ul>
-                            </li>
-                        @endauth
                     </ul>
                     @guest
                         <a class="ms-2 btn btn-sm btn-outline-gold" href="{{ route('login') }}">Masuk / Daftar</a>

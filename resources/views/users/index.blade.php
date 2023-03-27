@@ -50,9 +50,8 @@
                             @endforeach
                         </tbody>
                     </table>
-
+                    {{-- pagination --}}
                     {{ $users->links() }}
-
                 </div>
             </div>
         </div>
