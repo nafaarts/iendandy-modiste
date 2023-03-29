@@ -49,7 +49,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if (!$user->is_admin) {
-            return redirect()->route('beranda');
+            return redirect('/');
         }
+
+        return redirect()->route('dashboard');
     }
 }
