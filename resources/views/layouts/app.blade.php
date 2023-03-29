@@ -69,10 +69,16 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
+                        <li class="nav-item dropdown no-arrow">
+                            <a href="{{ route('beranda') }}" class="nav-link">
+                                <i class="fas fa-fw fa-home"></i>
+                            </a>
+                        </li>
+
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span
@@ -130,7 +136,7 @@
                 <div class="modal-footer">
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
                         <a href="{{ route('logout') }}" class="btn btn-gold"
                             onclick="event.preventDefault(); this.closest('form').submit();">
                             <i class="mr-2 fas fa-sign-out-alt"></i>

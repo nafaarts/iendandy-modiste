@@ -16,11 +16,12 @@
             <span>Dashboard</span></a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="#">
+    <li class="nav-item @if (request()->routeIs('pesanan*')) active @endif">
+        <a class="nav-link" href="{{ route('pesanan.index') }}">
             <i class="fas fa-fw fa-poll"></i>
-            <span>Penjualan</span></a>
+            <span>Pesanan</span></a>
     </li>
+
 
     <li class="nav-item @if (request()->routeIs('katalog*')) active @endif">
         <a class="nav-link" href="{{ route('katalog.index') }}">
