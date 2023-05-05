@@ -170,8 +170,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="https://s2.bukalapak.com/img/7177014091/w-1000/ALEENA_GREY_Dress_Gamis_Syari___Dress_Wanita_Muslimah___Gaun.jpg"
-                        alt="Panduan Pengukuran" class="img-fluid">
+                    <img src="{{ asset('guide.png') }}" alt="Panduan Pengukuran" class="img-fluid">
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-target="#ubahUkuran"
