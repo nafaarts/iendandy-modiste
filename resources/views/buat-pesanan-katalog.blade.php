@@ -122,6 +122,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- // test input warna --}}
+                                <div class="mb-3">
+                                    <label for="warna" class="form-label">Warna</label>
+                                    <input type="color" class="form-control" id="warna" name="warna"
+                                        placeholder="Masukan warna anda" style="width: 70px; height: 40px">
+                                </div>
                                 <div class="mb-3">
                                     <label for="alamat" class="form-label">Alamat</label>
                                     <input type="text" class="form-control" id="alamat" name="alamat"
