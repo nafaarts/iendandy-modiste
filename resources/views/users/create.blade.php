@@ -22,6 +22,17 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
+                            id="username" placeholder="Masukan Username" value="{{ old('username', $user->username) }}" required>
+                        @error('username')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- <div class="mb-3">
                         <label for="email" class="form-label">Alamat Email</label>
                         <input type="text" name="email" class="form-control @error('email') is-invalid @enderror"
                             id="email" placeholder="Alamat Email" value="{{ old('email') }}">
@@ -30,7 +41,7 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                    </div>
+                    </div> -->
 
                     <div class="mb-3">
                         <label for="phone_number" class="form-label">Nomor Telepon</label>

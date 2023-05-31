@@ -9,11 +9,12 @@
         </div>
         <form class="user" action="{{ route('login') }}" method="post">
             @csrf
+
             <div class="form-group">
-                <input type="email" name="email" value="{{ old('email') }}"
-                    class="form-control @error('email') is-invalid @enderror" id="exampleInputEmail"
-                    aria-describedby="emailHelp" placeholder="{{ __('Enter Email Address') }}" required autofocus>
-                @error('email')
+                <input type="username" name="username" value="{{ old('username') }}"
+                    class="form-control @error('username') is-invalid @enderror" id="exampleInputusername"
+                    aria-describedby="usernameHelp" placeholder="{{ __('Masukan username') }}" required autofocus>
+                @error('username')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>

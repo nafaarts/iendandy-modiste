@@ -118,7 +118,7 @@
     {{-- whatsapp --}}
     <div class="sc-whatsapp position-fixed bg-success rounded-circle d-flex justify-content-center align-items-center"
         style="bottom: 25px; right: 25px; height: 70px; width: 70px">
-        <a href="https://wa.me/6285144118541" target="_blank" class="text-white">
+        <a href="https://wa.me/6289502194596" target="_blank" class="text-white">
             <h2 class="m-0"><i class="fab fa-fw fa-whatsapp"></i></h2>
         </a>
     </div>
