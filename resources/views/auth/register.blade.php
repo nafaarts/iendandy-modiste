@@ -20,9 +20,9 @@
             </div>
 
             <div class="form-group">
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                    id="email" value="{{ old('email') }}" placeholder="Alamat Email">
-                @error('email')
+                <input type="username" name="username" class="form-control @error('username') is-invalid @enderror"
+                    id="username" value="{{ old('username') }}" placeholder="Masukan Username">
+                @error('username')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>

@@ -16,20 +16,20 @@ return new class extends Migration
         Schema::create('pesanan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()
-                    ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('no_pesanan');
             $table->enum('status_pesanan', [
-                    'PESANAN_DIBUAT',
-                    'DIKONFIRMASI',
-                    'MENUNGGU_PEMBAYARAN',
-                    'DIPROSES',
-                    'DIKIRIM',
-                    'SELESAI',
-                    'DIBATALKAN'
-                ])->default('PESANAN_DIBUAT');
+                'MENUNGGU_KONFIRMASI_ADMIN',
+                'MENUNGGU_KONFIRMASI_USER',
+                'MENUNGGU_PEMBAYARAN',
+                'DIPROSES',
+                'DIKIRIM',
+                'SELESAI',
+                'DIBATALKAN'
+            ])->default('MENUNGGU_KONFIRMASI_ADMIN');
             $table->enum('tipe_pesanan', ['KATALOG', 'KOSTUM'])->default('KATALOG');
             $table->foreignId('katalog_id')->nullable()->constrained('katalog')
-                    ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('foto_katalog')->nullable(); // image
             $table->json('ukuran');
             $table->boolean('termasuk_kain')->default(true);

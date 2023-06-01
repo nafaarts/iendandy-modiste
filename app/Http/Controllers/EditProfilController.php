@@ -18,7 +18,7 @@ class EditProfilController extends Controller
         // memvalidasi data yang di input.
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'username' => 'required',
             'phone_number' => 'required|numeric'
         ]);
 

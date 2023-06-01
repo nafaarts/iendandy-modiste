@@ -22,6 +22,14 @@ class BuatPesananKostumController extends Controller
             'catatan' => 'nullable'
         ]);
 
+        // ubah data ukuran yang awalnya json menjadi array
+        $ukuran = json_decode($request->ukuran, true);
+
+        // cek apakah ukuran ada, jika tidak tampilkan validasi (pesan) error.
+        if (count($ukuran['value']) == 0) {
+            return back()->with('error', 'Mohon masukan ukuran anda!');
+        }
+
         // buat nomor pesanan
         $code = 'KOSTUM-' . time() . '-' . date('Y');
 
@@ -43,6 +51,6 @@ class BuatPesananKostumController extends Controller
         // redirect halaman ke halaman detail pesanan dengan pesanan terkait
         // dan kirimkan pesan alert success dipesan.
         return redirect()->route('detail.pesanan', $pesanan)
-                ->with('success', 'Terima kasih, Admin akan me-review pesanan anda.');
+            ->with('success', 'Terima kasih, Admin akan me-review pesanan anda.');
     }
 }

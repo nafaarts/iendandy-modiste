@@ -28,7 +28,7 @@ class UserController extends Controller
         // validasi data yang diinput.
         $validated = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'username' => 'required|unique:users,username',
             'phone_number' => 'required|numeric|unique:users,phone_number',
             'password' => 'required|min:8|confirmed',
         ]);
@@ -55,19 +55,19 @@ class UserController extends Controller
         // validasi data yang diinput.
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'username' => 'required',
             'phone_number' => 'required|numeric',
             'password' => 'nullable|min:8|confirmed',
         ]);
 
-        // timpa data user yang lama dengan data yang baru diinput/
+        // timpa data user yang lama dengan data yang baru diinput
         $user->name = $request->name;
-        $user->email = $request->email;
+        $user->username = $request->username;
         $user->phone_number = $request->phone_number;
 
         // check jika user meng-input password atau tidak
         if ($request->password) {
-            // jika ada, timpa password yang lama dengan password baru yang telah di hashing.
+            // jika ada, timpa password yang lama dengan password baru yang telah di hashing (enkripsi).
             $user->password = bcrypt($request->password);
         }
         // simpan data yang sudah di timpa.

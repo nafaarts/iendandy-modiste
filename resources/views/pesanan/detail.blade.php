@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card border-0 p-3 mb-3">
-                            <div class="d-flex justify-content-center align-items-start w-100 mb-3 mb-md-0">
+                            <div class="d-flex justify-content-center align-items-start w-100 mb-3">
                                 @if ($pesanan->foto_katalog)
                                     <img class="img-fluid rounded"
                                         src="{{ asset('storage/img/kostum_katalog/' . $pesanan->foto_katalog) }}"
@@ -21,13 +21,93 @@
                                         height="500" alt="Katalog">
                                 @endif
                             </div>
+
+                            {{-- Tombol Konfirmasi --}}
+                            <div class="d-flex flex-column">
+                                @if ($pesanan->status_pesanan == 'MENUNGGU_KONFIRMASI_ADMIN' || $pesanan->status_pesanan == 'MENUNGGU_KONFIRMASI_USER')
+                                    {{-- // set status ke MENUNGGU_PEMBAYARAN --}}
+                                    <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
+                                        onsubmit="return confirm('apakah anda yakin mengkonfirmasi pesanan ini?')"
+                                        class="mb-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status_pesanan" value="MENUNGGU_PEMBAYARAN">
+                                        <button type="submit" class="btn btn-primary w-100">Konfirmasi Pesanan</button>
+                                    </form>
+
+                                    {{-- // set status ke MENUNGGU_KONFIRMASI_USER --}}
+                                    <button class="btn btn-secondary mb-2" data-toggle="modal"
+                                        data-target="#tetapkanHarga">Ubah Biaya Jahit</button>
+                                @endif
+
+                                @if ($pesanan->status_pesanan == 'MENUNGGU_PEMBAYARAN' && $pesanan->bukti_transfer)
+                                    {{-- // set status ke DIPROSES --}}
+                                    <form action="{{ route('pesanan.konfirmasi-pembayaran', $pesanan) }}" method="POST"
+                                        onsubmit="return confirm('apakah anda yakin mengkonfirmasi Pembayaran untuk pesanan ini?')">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-success mb-2 w-100">Konfirmasi
+                                            Pembayaran</button>
+                                    </form>
+                                @endif
+
+                                @if ($pesanan->status_pesanan == 'DIPROSES')
+                                    {{-- // set status ke DIKIRIM --}}
+                                    <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
+                                        onsubmit="return confirm('apakah anda yakin mengkonfirmasi Pengiriman untuk pesanan ini?')"
+                                        class="mb-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status_pesanan" value="DIKIRIM">
+                                        <button type="submit" class="btn btn-primary mb-2 w-100">Konfirmasi
+                                            Pengiriman</button>
+                                    </form>
+
+                                    {{-- // set status ke SELESAI --}}
+                                    <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
+                                        onsubmit="return confirm('apakah anda yakin mengkonfirmasi selesai untuk pesanan ini?')"
+                                        class="mb-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status_pesanan" value="SELESAI">
+                                        <button type="submit" class="btn btn-success mb-2 w-100">Konfirmasi
+                                            Selesai</button>
+                                    </form>
+                                @endif
+
+                                @if ($pesanan->status_pesanan == 'DIKIRIM')
+                                    {{-- // set status ke SELESAI --}}
+                                    <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
+                                        onsubmit="return confirm('apakah anda yakin mengkonfirmasi selesai untuk pesanan ini?')"
+                                        class="mb-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status_pesanan" value="SELESAI">
+                                        <button type="submit" class="btn btn-success mb-2 w-100">Konfirmasi
+                                            Selesai</button>
+                                    </form>
+                                @endif
+
+                                @if ($pesanan->status_pesanan != 'SELESAI')
+                                    {{-- // set status ke DIBATALKAN --}}
+                                    <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
+                                        onsubmit="return confirm('apakah anda yakin membatalkan pesanan ini?')"
+                                        class="mb-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status_pesanan" value="SELESAI">
+                                        <button type="submit" class="btn btn-danger w-100">Batalkan Pesanan</button>
+                                    </form>
+                                @endif
+                            </div>
+
                         </div>
                     </div>
                     <div class="col-md-8">
                         <div class="card border-0 p-3 mb-3">
                             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                                 <a href="{{ route('pesanan.index') }}"><i class="fas fa-fw fa-arrow-left"></i> Kembali</a>
-                                <div class="btn-group" role="group" aria-label="Basic example">
+                                {{-- <div class="btn-group" role="group" aria-label="Basic example">
                                     <button type="button" class="btn btn-warning" data-toggle="modal"
                                         data-target="#ubahStatus">Ubah Status</button>
                                     @if ($pesanan->status_pesanan !== 'DIBATALKAN')
@@ -43,7 +123,7 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#tetapkanHarga">Tetapkan Harga</button>
                                     @endif
-                                </div>
+                                </div> --}}
                             </div>
                             <hr>
                             <table>
@@ -69,10 +149,6 @@
                                         </td>
                                     </tr>
                                 @endif
-                                <tr>
-                                    <th>Termasuk Kain</th>
-                                    <td>{{ $pesanan->termasuk_kain ? 'Ya' : 'Tidak' }}</td>
-                                </tr>
                                 <tr>
                                     <th>Harga Pesanan</th>
                                     <td>Rp {{ number_format($pesanan->biaya) }}</td>
@@ -118,14 +194,14 @@
                         @endif
 
                         <div class="card border-0 p-3 mb-3">
-                            <h6>Ukuran</h6>
+                            <h6>Detail Baju</h6>
                             <hr>
                             <table>
                                 <tr>
                                     <th>Tipe Ukuran</th>
-                                    <td>{{ $pesanan->ukuran['type'] }}</td>
+                                    <td>{{ $pesanan->ukuran['type'] == 'ukuran-universal' ? 'UNIVERSAL' : 'KOSTUM' }}</td>
                                 </tr>
-                                @if ($pesanan->ukuran['type'] == 'universal')
+                                @if ($pesanan->ukuran['type'] == 'ukuran-universal')
                                     <tr>
                                         <th>Ukuran</th>
                                         <td>{{ $pesanan->ukuran['value']['size'] ?? '-' }}</td>
@@ -153,50 +229,25 @@
                                     </tr>
                                 @endif
 
+                                <tr>
+                                    <th>Termasuk Kain</th>
+                                    <td>{{ $pesanan->termasuk_kain ? 'Ya' : 'Tidak' }}</td>
+                                </tr>
+
+                                @isset($pesanan->ukuran['color'])
+                                    <tr>
+                                        <th>Warna</th>
+                                        <td>
+                                            <div
+                                                style="height: 20px; width: 40px; background: {{ $pesanan->ukuran['color'] }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endisset
+
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <form action="{{ route('pesanan.konfirmasi-pembayaran', $pesanan) }}" method="post" id="konfirmasi-pembayaran-form">
-        @csrf
-        @method('PUT')
-    </form>
-
-    <div class="modal fade" id="ubahStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ubah Status</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="post" id="ubah-status-form">
-                        @csrf
-                        @method('PUT')
-                        <div>
-                            <label for="status_pesanan" class="form-label">Status Pesanan</label>
-                            <select class="form-control" id="status_pesanan" name="status_pesanan">
-                                @foreach (['PESANAN_DIBUAT', 'DIKONFIRMASI', 'MENUNGGU_PEMBAYARAN', 'DIPROSES', 'DIKIRIM', 'SELESAI', 'DIBATALKAN'] as $item)
-                                    <option value="{{ $item }}" @selected($item == $pesanan->status_pesanan)>{{ $item }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-gold"
-                        onclick="document.querySelector('#ubah-status-form').submit()">
-                        Ubah
-                    </button>
                 </div>
             </div>
         </div>
@@ -213,7 +264,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('pesanan.tetapkan-harga', $pesanan) }}" method="post" id="tetapkan-harga-form">
+                    <form action="{{ route('pesanan.tetapkan-harga', $pesanan) }}" method="post"
+                        id="tetapkan-harga-form">
                         @csrf
                         @method('PUT')
                         <div>

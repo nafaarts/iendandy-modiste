@@ -41,6 +41,7 @@ class KatalogController extends Controller
         $validated = $request->validate([
             'kode_katalog' => 'required|unique:katalog',
             'gambar' => 'required',
+            'warna' => 'required',
             'harga_dengan_kain' => 'required|numeric',
             'harga_tanpa_kain' => 'required|numeric',
             'deskripsi' => 'nullable'
@@ -76,6 +77,7 @@ class KatalogController extends Controller
         // validasi data uang di input.
         $validated = $request->validate([
             'gambar' => 'nullable',
+            'warna' => 'required',
             'harga_dengan_kain' => 'required|numeric',
             'harga_tanpa_kain' => 'required|numeric',
             'deskripsi' => 'required'

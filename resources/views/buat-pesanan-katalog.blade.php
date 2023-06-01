@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container py-3">
+        @if (session('error'))
+            <div class="alert alert-warning" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-4">
                 <div class="card border-0 p-3 bg-light">
@@ -122,12 +127,17 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 {{-- // test input warna --}}
-                                <div class="mb-3">
+                                <div class="mb-3" id="wrapper-form-warna">
                                     <label for="warna" class="form-label">Warna</label>
                                     <input type="color" class="form-control" id="warna" name="warna"
-                                        placeholder="Masukan warna anda" style="width: 70px; height: 40px">
+                                        placeholder="Masukan warna anda" style="width: 70px; height: 40px"
+                                        onchange="setWarna()" value="{{ old('warna', $katalog->warna ?? '#000000') }}">
                                 </div>
+
+                                {{-- <pre id="previews"></pre> --}}
+
                                 <div class="mb-3">
                                     <label for="alamat" class="form-label">Alamat</label>
                                     <input type="text" class="form-control" id="alamat" name="alamat"
@@ -139,6 +149,8 @@
                                 <div class="mb-3">
                                     <label for="catatan" class="form-label">Catatan</label>
                                     <textarea class="form-control" name="catatan" id="catatan" rows="3" placeholder="Tinggalkan catatan"></textarea>
+                                    <small>* <strong>Harga dapat berubah</strong> berdasarkan perubahan yang anda minta di
+                                        catatan.</small>
                                     @error('catatan')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -157,7 +169,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>å
         </div>
     </div>
 
@@ -183,23 +195,18 @@
     <script>
         const radios = document.getElementsByName('dengan_kain');
         const totalHarga = document.querySelector('#total-harga');
+
         const ukuranRadios = document.getElementsByName('ukuran');
         const universal = document.querySelector('#ukuran-universal');
         const kostum = document.querySelector('#ukuran-kostum');
         const universalSize = document.getElementsByName('opsi-ukuran-universal')
-        const inputUkuran = document.querySelector('#ukuran')
+        const inputUkuran = document.querySelector('#ukuran');
 
-        let selectedUniversalSize, selectedKostumSize;
+        const wrapperFormWarna = document.querySelector("#wrapper-form-warna");
+        const inputWarna = document.querySelector('#warna');
 
-        function setUkuran(type, value) {
-            result = {
-                type: type === 'ukuran-universal' ? 'universal' : 'kostum',
-                value: value
-            }
-
-            inputUkuran.value = JSON.stringify(result)
-            console.log(result)
-        }
+        let withColor = true,
+            color, selectedType, selectedUniversalSize, selectedKostumSize;
 
         function setPrice(price) {
             totalHarga.textContent = new Intl.NumberFormat('id-ID', {
@@ -213,12 +220,36 @@
                 if (radios[i].checked) {
                     if (radios[i].value === '1') {
                         setPrice("{{ $katalog->harga_dengan_kain }}");
+                        wrapperFormWarna.classList.remove('d-none');
+                        withColor = true;
                     } else {
                         setPrice("{{ $katalog->harga_tanpa_kain }}");
+                        wrapperFormWarna.classList.add('d-none');
+                        withColor = false;
                     }
+                    updateUkuran()
                     break;
                 }
             }
+        }
+
+        function updateUkuran() {
+            let type = selectedType === 'ukuran-universal' ? 'ukuran-universal' : 'ukuran-kostum';
+            let result = {
+                type: type,
+                color: withColor ? color : null,
+                value: type === 'ukuran-universal' ? {
+                    size: selectedUniversalSize
+                } : selectedKostumSize
+            }
+
+            // previews.textContent = JSON.stringify(result, null, 2)
+            inputUkuran.value = JSON.stringify(result)
+        }
+
+        function setWarna() {
+            color = inputWarna.value;
+            updateUkuran();
         }
 
         function getUkuranType() {
@@ -227,13 +258,9 @@
                     kostum.classList.toggle('d-none', ukuranRadios[i].value === 'ukuran-universal')
                     universal.classList.toggle('d-none', ukuranRadios[i].value !== 'ukuran-universal')
 
-                    if (ukuranRadios[i].value === 'ukuran-universal') {
-                        setUkuran('ukuran-universal', {
-                            size: selectedUniversalSize
-                        })
-                    } else {
-                        setUkuran('ukuran-kostum', selectedKostumSize)
-                    }
+                    selectedType = ukuranRadios[i].value;
+                    updateUkuran()
+
                     break;
                 }
             }
@@ -244,20 +271,19 @@
                 ...selectedKostumSize,
                 [name]: e.value
             }
-            setUkuran('ukuran-kostum', selectedKostumSize)
+            updateUkuran()
         }
 
         universalSize.forEach(element => {
             element.onchange = (e) => {
                 selectedUniversalSize = e.target.value
-                setUkuran('ukuran-universal', {
-                    size: selectedUniversalSize
-                })
+                updateUkuran()
             }
         });
 
         // init
         getType()
         getUkuranType()
+        setWarna()
     </script>
 @endsection

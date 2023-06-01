@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container py-3">
+        @if (session('error'))
+            <div class="alert alert-warning" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-4">
                 <div class="card border-0 p-3 bg-light">
@@ -102,39 +107,44 @@
                                     @endforeach
                                     <small>* Masukan ukuran dalam CM</small>
                                 </div>
-
                             </div>
+
                             <form action="{{ route('simpan.pesanan-kostum') }}" method="POST" id="pesan-form"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <input type="file" name="foto_katalog" id="foto_katalog" class="d-none"
                                     onchange="previewImage()">
                                 <input type="hidden" name="ukuran" id="ukuran" class="form-control">
+
                                 <div class="mb-3">
                                     <label for="termasuk_kain" class="form-label">Dengan Kain</label>
                                     <div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="dengan_kain"
-                                                id="dengan_kain1" value="1" checked>
+                                                id="dengan_kain1" value="1" checked onclick="getType()">
                                             <label class="form-check-label" for="dengan_kain1">
                                                 Ya, Dengan kain
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="dengan_kain"
-                                                id="dengan_kain2" value="0">
+                                                id="dengan_kain2" value="0" onclick="getType()">
                                             <label class="form-check-label" for="dengan_kain2">
                                                 Tidak, Kain sendiri
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-                                {{-- // test input warna --}}
-                                <div class="mb-3">
+
+                                <div class="mb-3" id="wrapper-form-warna">
                                     <label for="warna" class="form-label">Warna</label>
                                     <input type="color" class="form-control" id="warna" name="warna"
-                                        placeholder="Masukan warna anda" style="width: 70px; height: 40px">
+                                        placeholder="Masukan warna anda" style="width: 70px; height: 40px"
+                                        onchange="setWarna()" value="{{ old('warna', $katalog->warna ?? '#000000') }}">
                                 </div>
+
+                                {{-- <pre id="previews"></pre> --}}
+
                                 <div class="mb-3">
                                     <label for="alamat" class="form-label">Alamat</label>
                                     <input type="text" class="form-control" id="alamat" name="alamat"
@@ -187,28 +197,57 @@
     </div>
 
     <script>
-        // const radios = document.getElementsByName('dengan_kain');
-        // const totalHarga = document.querySelector('#total-harga');
+        const radios = document.getElementsByName('dengan_kain');
         const ukuranRadios = document.getElementsByName('ukuran');
+
         const universal = document.querySelector('#ukuran-universal');
         const kostum = document.querySelector('#ukuran-kostum');
         const universalSize = document.getElementsByName('opsi-ukuran-universal')
-        const inputUkuran = document.querySelector('#ukuran')
+        const inputUkuran = document.querySelector('#ukuran');
 
-        let selectedUniversalSize, selectedKostumSize;
+        const wrapperFormWarna = document.querySelector("#wrapper-form-warna");
+        const inputWarna = document.querySelector('#warna');
+
+        let withColor = true,
+            color, selectedType, selectedUniversalSize, selectedKostumSize;
 
         function previewImage() {
             preview.src = URL.createObjectURL(event.target.files[0]);
         }
 
-        function setUkuran(type, value) {
-            result = {
-                type: type === 'ukuran-universal' ? 'universal' : 'kostum',
-                value: value
+        function getType() {
+            for (let i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    if (radios[i].value === '1') {
+                        wrapperFormWarna.classList.remove('d-none');
+                        withColor = true;
+                    } else {
+                        wrapperFormWarna.classList.add('d-none');
+                        withColor = false;
+                    }
+                    updateUkuran()
+                    break;
+                }
+            }
+        }
+
+        function updateUkuran() {
+            let type = selectedType === 'ukuran-universal' ? 'ukuran-universal' : 'ukuran-kostum';
+            let result = {
+                type: type,
+                color: withColor ? color : null,
+                value: type === 'ukuran-universal' ? {
+                    size: selectedUniversalSize
+                } : selectedKostumSize
             }
 
+            // previews.textContent = JSON.stringify(result, null, 2)
             inputUkuran.value = JSON.stringify(result)
-            console.log(result)
+        }
+
+        function setWarna() {
+            color = inputWarna.value;
+            updateUkuran();
         }
 
         function getUkuranType() {
@@ -217,13 +256,9 @@
                     kostum.classList.toggle('d-none', ukuranRadios[i].value === 'ukuran-universal')
                     universal.classList.toggle('d-none', ukuranRadios[i].value !== 'ukuran-universal')
 
-                    if (ukuranRadios[i].value === 'ukuran-universal') {
-                        setUkuran('ukuran-universal', {
-                            size: selectedUniversalSize
-                        })
-                    } else {
-                        setUkuran('ukuran-kostum', selectedKostumSize)
-                    }
+                    selectedType = ukuranRadios[i].value;
+                    updateUkuran()
+
                     break;
                 }
             }
@@ -234,19 +269,19 @@
                 ...selectedKostumSize,
                 [name]: e.value
             }
-            setUkuran('ukuran-kostum', selectedKostumSize)
+            updateUkuran()
         }
 
         universalSize.forEach(element => {
             element.onchange = (e) => {
                 selectedUniversalSize = e.target.value
-                setUkuran('ukuran-universal', {
-                    size: selectedUniversalSize
-                })
+                updateUkuran()
             }
         });
 
         // init
+        getType()
         getUkuranType()
+        setWarna()
     </script>
 @endsection

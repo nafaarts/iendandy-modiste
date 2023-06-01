@@ -14,6 +14,7 @@ class Katalog extends Model
     protected $fillable = [
         'kode_katalog',
         'gambar',
+        'warna',
         'harga_dengan_kain',
         'harga_tanpa_kain',
         'deskripsi'

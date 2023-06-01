@@ -17,12 +17,13 @@ class TetapkanHargaPesananController extends Controller
     {
         // validasi
         $request->validate([
-            'biaya' => 'required|numeric'
+            'biaya' => 'required|numeric',
         ]);
 
         // Update data biaya di database
         $pesanan->update([
-            'biaya' => $request->biaya
+            'biaya' => $request->biaya,
+            'status_pesanan' => 'MENUNGGU_KONFIRMASI_USER'
         ]);
 
         // Kembalikan halaman ke halaman sebelumnya dengan mengirimkan pesan sukses.

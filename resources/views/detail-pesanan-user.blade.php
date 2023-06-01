@@ -24,19 +24,46 @@
                 </div>
                 @if ($pesanan->status_pesanan != 'DIBATALKAN')
                     <div class="card border-0 p-3 bg-light mb-3">
-                        @if (!$pesanan->konfirmasi_pembayaran)
+                        @if (!$pesanan->konfirmasi_pembayaran && $pesanan->status_pesanan == 'MENUNGGU_PEMBAYARAN')
                             <button data-bs-toggle="modal" data-bs-target="#pembayaranModal"
                                 class="btn btn-sm btn-gold mb-2">
                                 <i class="fas fa-fw fa-wallet"></i> Bayar Sekarang
                             </button>
                         @endif
-                        @if (in_array($pesanan->status_pesanan, ['PESANAN_DIBUAT', 'DIKONFIRMASI', 'MENUNGGU_PEMBAYARAN']))
+
+                        @if ($pesanan->status_pesanan == 'MENUNGGU_KONFIRMASI_USER')
+                            <form action="{{ route('konfirmasi.pesanan', $pesanan) }}" method="POST"
+                                onsubmit="return confirm('apakah anda yakin mengkonfirmasi pesanan ini?')">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-sm btn-success w-100 mb-2">
+                                    <i class="fas fa-fw fa-check"></i> Konfirmasi pesanan
+                                </button>
+                            </form>
+                        @endif
+
+                        @if ($pesanan->status_pesanan == 'MENUNGGU_KONFIRMASI_ADMIN')
                             <button type="button" class="btn btn-sm btn-secondary mb-2" data-bs-target="#ubahUkuran"
                                 data-bs-toggle="modal">
                                 <i class="fas fa-fw fa-tshirt"></i> Ubah Ukuran
                             </button>
                         @endif
-                        @if ($pesanan->status_pesanan == 'PESANAN_DIBUAT')
+
+                        @if ($pesanan->status_pesanan == 'DIKIRIM')
+                            <form action="{{ route('konfirmasi-selesai.pesanan', $pesanan) }}" method="POST"
+                                onsubmit="return confirm('apakah anda yakin mengkonfirmasi selesai untuk pesanan ini?')">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-success mb-2 w-100">Konfirmasi
+                                    Selesai</button>
+                            </form>
+                        @endif
+
+                        @if (in_array($pesanan->status_pesanan, [
+                                'MENUNGGU_KONFIRMASI_ADMIN',
+                                'MENUNGGU_KONFIRMASI_USER',
+                                'MENUNGGU_PEMBAYARAN',
+                            ]))
                             <form action="{{ route('batalkan.pesanan', $pesanan) }}" method="POST"
                                 id="batalkan-pesanan-form"
                                 onsubmit="return confirm('apakah anda yakin membatalkan pesanan ini?')" class="w-100">
@@ -77,10 +104,6 @@
                                 </td>
                             </tr>
                         @endif
-                        <tr>
-                            <th>Termasuk Kain</th>
-                            <td>{{ $pesanan->termasuk_kain ? 'Ya' : 'Tidak' }}</td>
-                        </tr>
                         <tr>
                             <th>Harga Pesanan</th>
                             <td>Rp {{ number_format($pesanan->biaya) }}</td>
@@ -126,14 +149,14 @@
                 @endif
 
                 <div class="card border-0 p-3 bg-light mb-3">
-                    <h6>Ukuran</h6>
+                    <h6>Detail Baju</h6>
                     <hr>
                     <table>
                         <tr>
                             <th>Tipe Ukuran</th>
-                            <td>{{ $pesanan->ukuran['type'] }}</td>
+                            <td>{{ $pesanan->ukuran['type'] == 'ukuran-universal' ? 'UNIVERSAL' : 'KOSTUM' }}</td>
                         </tr>
-                        @if ($pesanan->ukuran['type'] == 'universal')
+                        @if ($pesanan->ukuran['type'] == 'ukuran-universal')
                             <tr>
                                 <th>Ukuran</th>
                                 <td>{{ $pesanan->ukuran['value']['size'] ?? '-' }}</td>
@@ -160,6 +183,21 @@
                                 <td>{{ $pesanan->ukuran['value']['panjang_gaun'] ?? '-' }} CM</td>
                             </tr>
                         @endif
+
+                        <tr>
+                            <th>Termasuk Kain</th>
+                            <td>{{ $pesanan->termasuk_kain ? 'Ya' : 'Tidak' }}</td>
+                        </tr>
+
+                        @isset($pesanan->ukuran['color'])
+                            <tr>
+                                <th>Warna</th>
+                                <td>
+                                    <div style="height: 20px; width: 40px; background: {{ $pesanan->ukuran['color'] }}">
+                                    </div>
+                                </td>
+                            </tr>
+                        @endisset
 
                     </table>
                 </div>
@@ -213,11 +251,12 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="ukuran" id="ukuran1" autocomplete="off"
-                                        value="ukuran-universal" @checked($pesanan->ukuran['type'] == 'universal') onclick="getUkuranType()">
+                                    <input type="radio" class="btn-check" name="ukuran" id="ukuran1"
+                                        autocomplete="off" value="ukuran-universal" @checked($pesanan->ukuran['type'] == 'ukuran-universal')
+                                        onclick="getUkuranType()">
                                     <label class="btn btn-outline-secondary" for="ukuran1">Universal</label>
                                     <input type="radio" class="btn-check" name="ukuran" id="ukuran2"
-                                        autocomplete="off" value="ukuran-kostum" @checked($pesanan->ukuran['type'] == 'kostum')
+                                        autocomplete="off" value="ukuran-kostum" @checked($pesanan->ukuran['type'] == 'ukuran-kostum')
                                         onclick="getUkuranType()">
                                     <label class="btn btn-outline-secondary" for="ukuran2">Kostum</label>
                                 </div>
@@ -288,6 +327,16 @@
                             @endforeach
                             <small>* Masukan ukuran dalam CM</small>
                         </div>
+
+                        <div class="mb-3" id="wrapper-form-warna">
+                            <label for="warna" class="form-label">Warna</label>
+                            <input type="color" class="form-control" id="warna" name="warna"
+                                placeholder="Masukan warna anda" style="width: 70px; height: 40px" onchange="setWarna()"
+                                value="{{ old('warna', $katalog->warna ?? '#000000') }}">
+                        </div>
+
+                        {{-- <pre id="previews"></pre> --}}
+
                         <form action="{{ route('ubah-ukuran.pesanan', $pesanan) }}" method="post"
                             id="ubah-ukuran-form">
                             @csrf
@@ -318,8 +367,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="https://s2.bukalapak.com/img/7177014091/w-1000/ALEENA_GREY_Dress_Gamis_Syari___Dress_Wanita_Muslimah___Gaun.jpg"
-                        alt="Panduan Pengukuran" class="img-fluid">
+                    <img src="{{ asset('guide.png') }}" alt="Panduan Pengukuran" class="img-fluid">
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-target="#ubahUkuran"
@@ -330,23 +378,64 @@
     </div>
 
     <script>
-        const defaultValue = @json($pesanan->ukuran);
-
+        const radios = document.getElementsByName('dengan_kain');
         const ukuranRadios = document.getElementsByName('ukuran');
+
         const universal = document.querySelector('#ukuran-universal');
         const kostum = document.querySelector('#ukuran-kostum');
         const universalSize = document.getElementsByName('opsi-ukuran-universal')
-        const inputUkuran = document.querySelector('#ukuran')
+        const inputUkuran = document.querySelector('#ukuran');
 
-        let selectedUniversalSize, selectedKostumSize;
+        const wrapperFormWarna = document.querySelector("#wrapper-form-warna");
+        const inputWarna = document.querySelector('#warna');
 
-        function setUkuran(type, value) {
-            result = {
-                type: type === 'ukuran-universal' ? 'universal' : 'kostum',
-                value: value
+        let withColor = true,
+            color, selectedType, selectedUniversalSize, selectedKostumSize;
+
+        const defaultValue = @json($pesanan->ukuran);
+
+        color = defaultValue.color
+        selectedType = defaultValue.type
+        selectedUniversalSize = selectedType === 'ukuran-universal' ? defaultValue.value : null
+        selectedKostumSize = selectedType === 'ukuran-kostum' ? defaultValue.value : null
+
+        function previewImage() {
+            preview.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        function getType() {
+            for (let i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    if (radios[i].value === '1') {
+                        wrapperFormWarna.classList.remove('d-none');
+                        withColor = true;
+                    } else {
+                        wrapperFormWarna.classList.add('d-none');
+                        withColor = false;
+                    }
+                    updateUkuran()
+                    break;
+                }
+            }
+        }
+
+        function updateUkuran() {
+            let type = selectedType === 'ukuran-universal' ? 'ukuran-universal' : 'ukuran-kostum';
+            let result = {
+                type: type,
+                color: withColor ? color : null,
+                value: type === 'ukuran-universal' ? {
+                    size: selectedUniversalSize
+                } : selectedKostumSize
             }
 
+            // previews.textContent = JSON.stringify(result, null, 2)
             inputUkuran.value = JSON.stringify(result)
+        }
+
+        function setWarna() {
+            color = inputWarna.value;
+            updateUkuran();
         }
 
         function getUkuranType() {
@@ -355,13 +444,9 @@
                     kostum.classList.toggle('d-none', ukuranRadios[i].value === 'ukuran-universal')
                     universal.classList.toggle('d-none', ukuranRadios[i].value !== 'ukuran-universal')
 
-                    if (ukuranRadios[i].value === 'ukuran-universal') {
-                        setUkuran('ukuran-universal', {
-                            size: selectedUniversalSize || defaultValue
-                        })
-                    } else {
-                        setUkuran('ukuran-kostum', selectedKostumSize || defaultValue)
-                    }
+                    selectedType = ukuranRadios[i].value;
+                    updateUkuran()
+
                     break;
                 }
             }
@@ -372,19 +457,19 @@
                 ...selectedKostumSize,
                 [name]: e.value
             }
-            setUkuran('ukuran-kostum', selectedKostumSize)
+            updateUkuran()
         }
 
         universalSize.forEach(element => {
             element.onchange = (e) => {
                 selectedUniversalSize = e.target.value
-                setUkuran('ukuran-universal', {
-                    size: selectedUniversalSize
-                })
+                updateUkuran()
             }
         });
 
         // init
+        getType()
         getUkuranType()
+        setWarna()
     </script>
 @endsection

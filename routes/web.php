@@ -9,6 +9,8 @@ use App\Http\Controllers\EditPasswordController;
 use App\Http\Controllers\EditProfilController;
 use App\Http\Controllers\HandlePembayaranController;
 use App\Http\Controllers\KonfimasiPembayaranController;
+use App\Http\Controllers\KonfirmasiPesananSelesaiUserController;
+use App\Http\Controllers\KonfirmasiPesananUserController;
 use App\Http\Controllers\TetapkanHargaPesananController;
 use App\Http\Controllers\UbahStatusPesananController;
 use App\Http\Controllers\UbahUkuranPesananController;
@@ -136,6 +138,14 @@ Route::middleware('auth')->group(function () {
     // route ini untuk menghandle pembatalan pada pesanan dan diberi nama 'batalkan.pesanan'
     // di kontrol di controller BatalkanPesananController yang ada di folder App/Http/Controllers/BatalkanPesananController
     Route::put('/pesanan/{pesanan:no_pesanan}/batalkan', BatalkanPesananController::class)->name('batalkan.pesanan');
+
+    // route ini untuk menghandle konfirmasi user pada pesanan dan diberi nama 'konfirmasi.pesanan'
+    // di kontrol di controller KonfirmasiPesananUserController yang ada di folder App/Http/Controllers/KonfirmasiPesananUserController
+    Route::put('/pesanan/{pesanan:no_pesanan}/konfirmasi', KonfirmasiPesananUserController::class)->name('konfirmasi.pesanan');
+
+    // route ini untuk menghandle konfirmasi selesai user pada pesanan dan diberi nama 'konfirmasi-selesai.pesanan'
+    // di kontrol di controller KonfirmasiPesananSelesaiUserController yang ada di folder App/Http/Controllers/KonfirmasiPesananSelesaiUserController
+    Route::put('/pesanan/{pesanan:no_pesanan}/konfirmasi-selesai', KonfirmasiPesananSelesaiUserController::class)->name('konfirmasi-selesai.pesanan');
 
     // route ini untuk menghandle pembayaran pada pesanan dan diberi nama 'pembayaran.pesanan'
     // di kontrol di controller HandlePembayaranController yang ada di folder App/Http/Controllers/HandlePembayaranController

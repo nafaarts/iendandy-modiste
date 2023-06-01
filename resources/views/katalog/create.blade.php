@@ -68,6 +68,17 @@
                             </div>
 
                             <div class="mb-3">
+                                <label class="form-label">Warna</label>
+                                <br>
+                                <input type="color" name="warna" value="{{ old('warna') }}">
+                                @error('warna')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="deskripsi" class="form-label">Deskripsi</label>
                                 <textarea name="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" rows="5"
                                     placeholder="Masukan deskripsi">{{ old('deskripsi') }}</textarea>

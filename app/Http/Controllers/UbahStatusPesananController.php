@@ -15,7 +15,7 @@ class UbahStatusPesananController extends Controller
      */
     public function __invoke(Request $request, Pesanan $pesanan)
     {
-        // ENUM : 'PESANAN_DIBUAT', 'DIKONFIRMASI', 'MENUNGGU_PEMBAYARAN', 'DIPROSES', 'DIKIRIM', 'SELESAI', 'DIBATALKAN'
+        // ENUM :  'MENUNGGU_KONFIRMASI_ADMIN', 'MENUNGGU_KONFIRMASI_USER', 'MENUNGGU_PEMBAYARAN', 'DIPROSES', 'DIKIRIM', 'SELESAI', 'DIBATALKAN'
 
         // update data status pesanan di database
         $pesanan->update([
