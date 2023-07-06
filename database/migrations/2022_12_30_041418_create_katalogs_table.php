@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('kode_katalog');
             $table->string('gambar');
+            $table->integer('stok')->default(0);
             $table->integer('harga_dengan_kain');
             $table->integer('harga_tanpa_kain');
+            $table->json('warna')->nullable();
             $table->text('deskripsi')->nullable();
             $table->timestamps();
         });

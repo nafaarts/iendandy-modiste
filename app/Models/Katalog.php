@@ -13,10 +13,12 @@ class Katalog extends Model
 
     protected $fillable = [
         'kode_katalog',
+        'stok',
         'gambar',
         'warna',
         'harga_dengan_kain',
         'harga_tanpa_kain',
+        'warna',
         'deskripsi'
     ];
 

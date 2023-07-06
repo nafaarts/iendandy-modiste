@@ -130,10 +130,24 @@
 
                                 {{-- // test input warna --}}
                                 <div class="mb-3" id="wrapper-form-warna">
-                                    <label for="warna" class="form-label">Warna</label>
-                                    <input type="color" class="form-control" id="warna" name="warna"
+                                    <label class="form-label">Warna</label>
+
+                                    <div class="d-flex gap-4">
+                                        @foreach (json_decode($katalog->warna) as $item)
+                                            <label for="warna-{{ $loop->iteration }}" class="d-flex gap-2">
+                                                <input type="radio" name="warna" id="warna-{{ $loop->iteration }}"
+                                                    value="{{ $item }}" @checked($loop->iteration == 1)
+                                                    onclick="setWarna()">
+                                                <div style="height: 30px; width: 30px; background: {{ $item }}"
+                                                    class="border">
+                                                </div>
+                                            </label>
+                                        @endforeach
+                                    </div>
+
+                                    {{-- <input type="color" class="form-control" id="warna" name="warna"
                                         placeholder="Masukan warna anda" style="width: 70px; height: 40px"
-                                        onchange="setWarna()" value="{{ old('warna', $katalog->warna ?? '#000000') }}">
+                                        onchange="setWarna()" value="{{ old('warna', $katalog->warna ?? '#000000') }}"> --}}
                                 </div>
 
                                 {{-- <pre id="previews"></pre> --}}
@@ -192,7 +206,7 @@
         </div>
     </div>
 
-    <script>
+    <script defer>
         const radios = document.getElementsByName('dengan_kain');
         const totalHarga = document.querySelector('#total-harga');
 
@@ -203,7 +217,8 @@
         const inputUkuran = document.querySelector('#ukuran');
 
         const wrapperFormWarna = document.querySelector("#wrapper-form-warna");
-        const inputWarna = document.querySelector('#warna');
+        const warnaRadios = document.getElementsByName('warna');
+        // const inputWarna = document.querySelector('#warna');
 
         let withColor = true,
             color, selectedType, selectedUniversalSize, selectedKostumSize;
@@ -243,12 +258,23 @@
                 } : selectedKostumSize
             }
 
+            console.log(result)
+
             // previews.textContent = JSON.stringify(result, null, 2)
             inputUkuran.value = JSON.stringify(result)
         }
 
         function setWarna() {
-            color = inputWarna.value;
+            // color = inputWarna.value;
+            for (let i = 0, length = warnaRadios.length; i < length; i++) {
+                if (warnaRadios[i].checked) {
+                    color = warnaRadios[i].value;
+                    console.log(color)
+                    // updateUkuran()
+                    break;
+                }
+            }
+
             updateUkuran();
         }
 

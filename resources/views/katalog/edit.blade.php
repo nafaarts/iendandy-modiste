@@ -70,15 +70,131 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Warna</label>
-                                <br>
-                                <input type="color" name="warna" value="{{ old('warna', $katalog->warna) }}">
-                                @error('warna')
+                                <label class="form-label">Stok</label>
+                                <input type="number" min="0" name="stok"
+                                    class="form-control @error('stok') is-invalid @enderror"
+                                    placeholder="Masukan jumlah stok" value="{{ old('stok', $katalog->stok) }}">
+                                @error('stok')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
+
+                            <style>
+                                #color-wrapper {
+                                    display: flex;
+                                    gap: 5px;
+                                    padding: 5px;
+                                    border: 1px solid lightgray;
+                                    border-radius: 5px;
+                                }
+
+                                #color-node-wrapper {
+                                    display: flex;
+                                    gap: 5px;
+                                }
+
+                                .color-node {
+                                    display: grid;
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 5px;
+                                    justify-content: center;
+                                    align-items: center;
+                                }
+
+                                .color-node-add {
+                                    display: grid;
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 5px;
+                                    justify-content: center;
+                                    align-items: center;
+                                    border: 1px dotted lightgray;
+                                    cursor: pointer;
+                                    transition: .3s ease-in-out;
+                                }
+
+                                .color-node-add:hover {
+                                    background: lightgray;
+                                }
+
+                                .color-node-remove-button {
+                                    padding: 0;
+                                    border: 0;
+                                    margin: 0;
+                                    border-radius: 50%;
+                                    width: 25px;
+                                    height: 25px;
+                                    background: rgba(255, 255, 255, 0.5);
+                                    transition: .3s ease-in-out;
+                                }
+
+                                .color-node-remove-button:hover {
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 0;
+                                }
+                            </style>
+
+                            <div class="d-flex flex-column">
+                                <label class="form-label">Warna</label>
+                                <div id="color-wrapper">
+                                    <div id="color-node-wrapper">
+                                    </div>
+                                    <label for="color-picker" class="color-node-add m-0">
+                                        <i class="fas fa-fw fa-plus"></i>
+                                    </label>
+                                </div>
+                                @error('warna')
+                                    <small class="text-danger mt-1">{{ $message }}</small>
+                                @enderror
+                                <input type="color" id="color-picker" style="opacity: 0">
+                                <input type="hidden" name="warna" id="warna">
+                            </div>
+
+                            <script defer>
+                                let colors = @json(json_decode(old('warna', $katalog->warna) ?? '[]')) || [];
+
+                                function updateColor() {
+                                    const warna = document.getElementById("warna");
+                                    warna.value = JSON.stringify(colors);
+
+                                    const colorNodeWrapper = document.getElementById("color-node-wrapper");
+                                    while (colorNodeWrapper.firstChild) {
+                                        colorNodeWrapper.removeChild(colorNodeWrapper.lastChild);
+                                    };
+
+                                    colors.forEach(color => {
+                                        const div = document.createElement('div')
+                                        div.classList.add('color-node');
+                                        div.style.background = color;
+
+                                        const button = document.createElement('button');
+                                        button.type = 'button';
+                                        button.classList.add('color-node-remove-button');
+                                        button.innerHTML = "<i class='fas fa-fw fa-trash'></i>"
+                                        button.dataset.color = color
+
+                                        button.onclick = () => {
+                                            colors = colors.filter(item => item !== color)
+                                            updateColor()
+                                        }
+
+                                        div.append(button);
+
+                                        colorNodeWrapper.append(div)
+                                    });
+                                }
+                                updateColor()
+
+                                const inputColor = document.getElementById('color-picker')
+                                inputColor.onchange = (e) => {
+                                    colors.push(e.target.value);
+                                    updateColor()
+                                }
+                            </script>
 
                             <div class="mb-3">
                                 <label for="deskripsi" class="form-label">Deskripsi</label>

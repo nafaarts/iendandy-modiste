@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 // route untuk menampilkan halaman utama dan diberi nama 'beranda'.
 Route::get('/', function () {
     // ambil katalog untuk di tampilkan di halaman utama
-    $katalog = Katalog::latest()->get();
+    $katalog = Katalog::orderBy('stok', 'DESC')->latest()->get();
     // tampilkan halaman yang ada di folder resources/views/beranda.blade.php
     return view('beranda', compact('katalog'));
 })->name('beranda');

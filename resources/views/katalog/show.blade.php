@@ -20,6 +20,10 @@
                                 <h5 class="m-0"><b>{{ $katalog->kode_katalog }}</b></h5>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>Jumlah Stok</span>
+                                <h5 class="m-0">{{ $katalog->stok }}</h5>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>Harga</span>
                                 <h5 class="m-0">Rp {{ number_format($katalog->harga_tanpa_kain) }}</h5>
                             </li>
@@ -34,6 +38,14 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>Tanggal ditambahkan</span>
                                 <span class="m-0">{{ $katalog->created_at->format('d F Y') }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>Warna</span>
+                                <div class="d-flex" style="gap: 5px">
+                                    @foreach (json_decode($katalog->warna) as $item)
+                                        <div style="height: 20px; width: 20px; background: {{ $item }}"></div>
+                                    @endforeach
+                                </div>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>Deskripsi</span>

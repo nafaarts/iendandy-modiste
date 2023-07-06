@@ -99,14 +99,19 @@
                         @if ($pesanan->katalog_id)
                             <tr>
                                 <th>Referensi Katalog</th>
-                                <td><a
+                                <td>
+                                    <a
                                         href="{{ route('detail.katalog', $pesanan->katalog) }}"><i>{{ $pesanan->katalog->kode_katalog }}</i></a>
                                 </td>
                             </tr>
                         @endif
                         <tr>
                             <th>Harga Pesanan</th>
-                            <td>Rp {{ number_format($pesanan->biaya) }}</td>
+                            <td>Rp {{ number_format($pesanan->biaya) }}
+                                @if ($pesanan->biaya == 0)
+                                    <i class="text-muted">( Menunggu harga dari admin )</i>
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <th>Tanggal dipesan</th>
