@@ -11,6 +11,7 @@
 
     <div class="container py-4">
         <h5 class="text-gold">Katalog Iendandy</h5>
+        
         <hr>
         @if ($katalog)
             <section class="splide" aria-labelledby="carousel-heading">

@@ -216,7 +216,7 @@
                 <div class="modal-body">
                     <div class="card p-2 mb-2">
                         <hp><strong>Bank Syariah Indonesia</strong></hp>
-                        <p class="m-0">123-412-51232 (Sri Murni)</p>
+                        <p class="m-0">123-412-51232 (Iendandy Modiste)</p>
                     </div>
                     <form action="{{ route('pembayaran.pesanan', $pesanan) }}" method="post" id="form-bukti-pembayaran"
                         enctype="multipart/form-data">

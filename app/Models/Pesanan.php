@@ -14,7 +14,7 @@ class Pesanan extends Model
     protected $fillable = [
         'user_id',
         'no_pesanan',
-        'status_pesanan', // ENUM :  'MENUNGGU_KONFIRMASI_ADMIN', 'MENUNGGU_KONFIRMASI_USER', 'MENUNGGU_PEMBAYARAN', 'DIPROSES', 'DIKIRIM', 'SELESAI', 'DIBATALKAN'
+        'status_pesanan', // ENUM :  'MENUNGGU_KONFIRMASI_ADMIN', 'MENUNGGU_KONFIRMASI_CUSTOMER', 'MENUNGGU_PEMBAYARAN', 'DIPROSES', 'DIKIRIM', 'SELESAI', 'DIBATALKAN'
         'tipe_pesanan', // ENUM : 'KATALOG', 'KOSTUM'
         'katalog_id',
         'foto_katalog',

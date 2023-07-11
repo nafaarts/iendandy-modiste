@@ -96,7 +96,7 @@
                                         <div class="input-group input-group-sm mb-3">
                                             <span class="input-group-text">{{ $item }}</span>
                                             <input type="text" class="form-control"
-                                                placeholder="Masukan {{ $item }} anda"
+                                                placeholder="Masukkan {{ $item }} anda"
                                                 id="{{ str()->slug($item, '_') }}"
                                                 onkeyup="getUkuranKostum(this, '{{ str()->slug($item, '_') }}')">
                                         </div>

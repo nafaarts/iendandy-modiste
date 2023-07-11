@@ -30,7 +30,7 @@
                                 </li>
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                                    <span>Harga (Dengan Kain)</span>
+                                    <span>Harga Dengan Kain</span>
                                     <h5 class="m-0">Rp {{ number_format($katalog->harga_dengan_kain) }}</h5>
                                 </li>
                                 <li
