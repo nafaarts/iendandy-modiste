@@ -29,8 +29,13 @@
 
         <div class="row mb-3">
             @forelse ($katalog as $item)
-                <div class="col-md-2 p-2">
-                    <a href="{{ route('katalog.show', $item) }}">
+                <div class="col-md-3 col-lg-2 p-2">
+                    <a href="{{ route('katalog.show', $item) }}" class="position-relative">
+                        @if ($item->stok == 0)
+                            <div class="position-absolute bg-danger px-2 m-2 text-white" style="z-index: 9999">
+                                Stok Habis
+                            </div>
+                        @endif
                         <div class="katalog-card card position-relative overflow-hidden d-flex justify-content-center align-items-center"
                             style="height: 300px">
                             <img src="{{ asset('storage/img/katalog/' . $item->gambar) }}" class="img-fluid" alt="...">

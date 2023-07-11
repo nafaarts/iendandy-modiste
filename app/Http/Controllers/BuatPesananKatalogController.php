@@ -16,6 +16,11 @@ class BuatPesananKatalogController extends Controller
      */
     public function __invoke(Request $request, Katalog $katalog)
     {
+        // cek apakah stok tersedia
+        if ($katalog->stok == 0) {
+            return back()->with('error', 'Mohon maaf stok habis!');
+        }
+
         // validasi data pesanan yang di input.
         $request->validate([
             'alamat' => 'required',
@@ -41,6 +46,7 @@ class BuatPesananKatalogController extends Controller
         $pesanan = Pesanan::create([
             'user_id' => auth()->id(),
             'no_pesanan' => $code,
+            'status_pesanan' => 'MENUNGGU_PEMBAYARAN',
             'katalog_id' => $katalog->id,
             'biaya' => $biaya,
             'ukuran' => $request->ukuran,
@@ -48,6 +54,11 @@ class BuatPesananKatalogController extends Controller
             'alamat' => $request->alamat,
             'catatan' => $request->catatan
         ]);
+
+        // jika pesanan berhasil dibuat, kurangi jumlah stok.
+        if ($pesanan) {
+            $katalog->update(['stok' => $katalog->stok - 1]);
+        }
 
         // redirect halaman ke halaman detail pesanan dengan pesanan terkait
         // dan kirimkan pesan alert success dipesan.

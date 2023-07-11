@@ -12,6 +12,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Nomor Pesanan</th>
+                                <th scope="col">Nama Costumer</th>
                                 <th scope="col">Jenis Pesanan</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Harga</th>
@@ -24,6 +25,7 @@
                                     <th scope="row">
                                         <a href="{{ route('pesanan.show', $item) }}">{{ $item->no_pesanan }}</a>
                                     </th>
+                                    <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->tipe_pesanan }}</td>
                                     <td><strong>{{ $item->status_pesanan }}</strong></td>
                                     <td>Rp {{ number_format($item->biaya) }}</td>
@@ -31,7 +33,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center py-3">Belum ada pesanan</td>
+                                    <td colspan="6" class="text-center py-3">Belum ada pesanan</td>
                                 </tr>
                             @endforelse
                         </tbody>

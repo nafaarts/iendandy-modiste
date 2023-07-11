@@ -27,6 +27,9 @@
                                     </div>
                                     <div class="katalog-konten justify-content-center align-items-center">
                                         <div class="text-center">
+                                            @if ($item->stok == 0)
+                                                <span class="badge bg-danger mb-3">Stok Habis!</span>
+                                            @endif
                                             <h3 class="m-0 text-white mb-2">{{ $item->kode_katalog }}</h3>
                                             <small class="d-block mb-4 text-white">Mulai Rp
                                                 {{ number_format($item->harga_tanpa_kain) }}</small>

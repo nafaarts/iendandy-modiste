@@ -25,6 +25,17 @@
                                 </li>
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                    <span>Stok</span>
+                                    @if ($katalog->stok == 0)
+                                        <span class="badge bg-danger">Stok Habis!</span>
+                                    @else
+                                        <h5 class="m-0">
+                                            {{ $katalog->stok }}
+                                        </h5>
+                                    @endif
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
                                     <span>Harga</span>
                                     <h5 class="m-0">Rp {{ number_format($katalog->harga_tanpa_kain) }}</h5>
                                 </li>
@@ -38,6 +49,15 @@
                                     <span>Tanggal ditambahkan</span>
                                     <span class="m-0">{{ $katalog->created_at->format('d F Y') }}</span>
                                 </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                                    <span>Warna</span>
+                                    <div class="d-flex" style="gap: 5px">
+                                        @foreach (json_decode($katalog->warna) as $item)
+                                            <div style="height: 20px; width: 20px; background: {{ $item }}"></div>
+                                        @endforeach
+                                    </div>
+                                </li>
                                 <li class="list-group-item d-flex flex-column bg-transparent">
                                     <span class="mb-2">Deskripsi</span>
                                     <small class="m-0 text-right text-muted">{{ $katalog->deskripsi ?? '-' }}</small>
@@ -46,7 +66,9 @@
                         </div>
                         <div class="d-flex justify-content-end">
                             <a href="{{ route('beranda') }}" class="btn btn-secondary me-2">Kembali</a>
-                            <a href="{{ route('buat.pesanan', $katalog) }}" class="btn btn-gold">Buat Pesanan</a>
+                            <a @if ($katalog->stok != 0) href="{{ route('buat.pesanan', $katalog) }}"
+                                @else href="javascript:alert('Maaf, Stok Habis!')" @endif
+                                class="btn btn-gold">Buat Pesanan</a>
                         </div>
                     </div>
                 </div>
