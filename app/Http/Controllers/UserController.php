@@ -28,7 +28,8 @@ class UserController extends Controller
         // validasi data yang diinput.
         $validated = $request->validate([
             'name' => 'required',
-            'username' => 'required|unique:users,username',
+            'email' => 'required|email|unique:users,email',
+            // 'username' => 'required|unique:users,username',
             'phone_number' => 'required|numeric|unique:users,phone_number',
             'password' => 'required|min:8|confirmed',
         ]);
@@ -55,14 +56,16 @@ class UserController extends Controller
         // validasi data yang diinput.
         $request->validate([
             'name' => 'required',
-            'username' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            // 'username' => 'required',
             'phone_number' => 'required|numeric',
             'password' => 'nullable|min:8|confirmed',
         ]);
 
         // timpa data user yang lama dengan data yang baru diinput
         $user->name = $request->name;
-        $user->username = $request->username;
+        $user->email = $request->email;
+        // $user->username = $request->username;
         $user->phone_number = $request->phone_number;
 
         // check jika user meng-input password atau tidak

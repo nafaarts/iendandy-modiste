@@ -6,7 +6,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-dark">Admin</h6>
             </div>
-            <form action="{{ route('admin') }}" method="POST">
+            <form action="{{ route('admin.update') }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -24,11 +24,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
-                            id="username" placeholder="Username" value="{{ old('username', auth()->user()->username) }}"
-                            required>
-                        @error('username')
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" name="email" class="form-control @error('email') is-invalid @enderror"
+                            id="email" placeholder="Email" value="{{ old('email', auth()->user()->email) }}" required>
+                        @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -74,7 +73,7 @@
 
                 <div class="card-footer">
                     <a href="{{ route('users.index') }}" class="btn btn-secondary">Kembali</a>
-                    <button type="submit" class="btn btn-gold">{{ __('Submit') }}</button>
+                    <button type="submit" class="btn btn-gold">Simpan</button>
                 </div>
             </form>
         </div>

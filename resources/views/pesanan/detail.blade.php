@@ -40,7 +40,7 @@
                                         data-target="#tetapkanHarga">Ubah Biaya Jahit</button>
                                 @endif
 
-                                @if ($pesanan->status_pesanan == 'MENUNGGU_PEMBAYARAN' && $pesanan->bukti_transfer)
+                                @if ($pesanan->status_pesanan == 'MENUNGGU_KONFIRMASI_PEMBAYARAN' && $pesanan->bukti_transfer)
                                     {{-- // set status ke DIPROSES --}}
                                     <form action="{{ route('pesanan.konfirmasi-pembayaran', $pesanan) }}" method="POST"
                                         onsubmit="return confirm('apakah anda yakin mengkonfirmasi Pembayaran untuk pesanan ini?')">
@@ -95,7 +95,7 @@
                                         class="mb-2">
                                         @csrf
                                         @method('PUT')
-                                        <input type="hidden" name="status_pesanan" value="SELESAI">
+                                        <input type="hidden" name="status_pesanan" value="DIBATALKAN">
                                         <button type="submit" class="btn btn-danger w-100">Batalkan Pesanan</button>
                                     </form>
                                 @endif
@@ -130,6 +130,10 @@
                                 <tr>
                                     <th>No Pesanan</th>
                                     <td>{{ $pesanan->no_pesanan }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Nama Kostumer</th>
+                                    <td>{{ $pesanan->user->name }}</td>
                                 </tr>
                                 <tr>
                                     <th>Status Pesanan</th>

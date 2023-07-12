@@ -22,7 +22,6 @@
             <span>Pesanan</span></a>
     </li>
 
-
     <li class="nav-item @if (request()->routeIs('katalog*')) active @endif">
         <a class="nav-link" href="{{ route('katalog.index') }}">
             <i class="fas fa-fw fa-tshirt"></i>
@@ -33,6 +32,12 @@
         <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Pengguna</span></a>
+    </li>
+
+    <li class="nav-item @if (request()->routeIs('warna*')) active @endif">
+        <a class="nav-link" href="{{ route('warna.index') }}">
+            <i class="fas fa-fw fa-palette"></i>
+            <span>Warna</span></a>
     </li>
 
     <li class="nav-item @if (request()->routeIs('admin*')) active @endif">

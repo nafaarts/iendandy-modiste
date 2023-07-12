@@ -31,11 +31,12 @@ class HandlePembayaranController extends Controller
 
         // update data pesanan di database dengan nama yang sudah di hashing agar tidak ada duplikasi nama file.
         $pesanan->update([
+            'status_pesanan' => 'MENUNGGU_KONFIRMASI_PEMBAYARAN',
             'bukti_transfer' => $request->bukti_transfer->hashName()
         ]);
 
         // kembalikan halaman ke halaman pesanan dengan menyertakan pesan sukses.
         return redirect()->route('detail.pesanan', $pesanan)
-                ->with('success', 'Terima kasih, Bukti transfer berhasil disimpan dan akan di periksa oleh admin.');
+            ->with('success', 'Terima kasih, Bukti transfer berhasil disimpan dan akan di periksa oleh admin.');
     }
 }

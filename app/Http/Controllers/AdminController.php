@@ -30,6 +30,7 @@ class AdminController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            // 'username' => $request->username,
             'phone_number' => $request->phone_number
         ]);
 

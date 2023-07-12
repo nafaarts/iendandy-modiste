@@ -11,10 +11,10 @@
             @csrf
 
             <div class="form-group">
-                <input type="username" name="username" value="{{ old('username') }}"
-                    class="form-control @error('username') is-invalid @enderror" id="exampleInputusername"
-                    aria-describedby="usernameHelp" placeholder="{{ __('Masukan username') }}" required autofocus>
-                @error('username')
+                <input type="email" name="email" value="{{ old('email') }}"
+                    class="form-control @error('email') is-invalid @enderror" id="exampleInputemail"
+                    aria-describedby="emailHelp" placeholder="{{ __('Masukan email') }}" required autofocus>
+                @error('email')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -45,7 +45,7 @@
         <hr>
         @if (Route::has('password.request'))
             <div class="text-center">
-                <a class="small text-gold" href="{{ route('password.request') }}">{{ __('Forgot Password?') }}</a>
+                <a class="small text-gold" href="{{ route('password.request') }}">Lupa Password?</a>
             </div>
         @endif
         @if (Route::has('register'))
