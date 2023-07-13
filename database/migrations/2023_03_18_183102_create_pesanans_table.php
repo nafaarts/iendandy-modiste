@@ -22,6 +22,7 @@ return new class extends Migration
                 'MENUNGGU_KONFIRMASI_ADMIN',
                 'MENUNGGU_KONFIRMASI_USER',
                 'MENUNGGU_PEMBAYARAN',
+                'MENUNGGU_KONFIRMASI_PEMBAYARAN',
                 'DIPROSES',
                 'DIKIRIM',
                 'SELESAI',

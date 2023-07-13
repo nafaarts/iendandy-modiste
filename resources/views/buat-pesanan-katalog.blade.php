@@ -163,8 +163,8 @@
                                 <div class="mb-3">
                                     <label for="catatan" class="form-label">Catatan</label>
                                     <textarea class="form-control" name="catatan" id="catatan" rows="3" placeholder="Tinggalkan catatan"></textarea>
-                                    <small>* <strong>Harga dapat berubah</strong> apabila ada perubahan/penambahan model
-                                        yang ada di katalog.</small>
+                                    {{-- <small>* <strong>Harga dapat berubah</strong> apabila ada perubahan/penambahan model
+                                        yang ada di katalog.</small> --}}
                                     @error('catatan')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror

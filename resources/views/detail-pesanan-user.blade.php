@@ -24,7 +24,9 @@
                 </div>
                 @if ($pesanan->status_pesanan != 'DIBATALKAN')
                     <div class="card border-0 p-3 bg-light mb-3">
-                        @if (!$pesanan->konfirmasi_pembayaran && $pesanan->status_pesanan == 'MENUNGGU_PEMBAYARAN')
+                        @if (
+                            !$pesanan->konfirmasi_pembayaran &&
+                                in_array($pesanan->status_pesanan, ['MENUNGGU_PEMBAYARAN', 'MENUNGGU_KONFIRMASI_PEMBAYARAN']))
                             <button data-bs-toggle="modal" data-bs-target="#pembayaranModal"
                                 class="btn btn-sm btn-gold mb-2">
                                 <i class="fas fa-fw fa-wallet"></i> Bayar Sekarang
@@ -63,6 +65,7 @@
                                 'MENUNGGU_KONFIRMASI_ADMIN',
                                 'MENUNGGU_KONFIRMASI_USER',
                                 'MENUNGGU_PEMBAYARAN',
+                                'MENUNGGU_KONFIRMASI_PEMBAYARAN',
                             ]))
                             <form action="{{ route('batalkan.pesanan', $pesanan) }}" method="POST"
                                 id="batalkan-pesanan-form"

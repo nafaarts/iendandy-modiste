@@ -16,6 +16,7 @@ use App\Http\Controllers\UbahStatusPesananController;
 use App\Http\Controllers\UbahUkuranPesananController;
 use App\Models\Katalog;
 use App\Models\Pesanan;
+use App\Models\Warna;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +44,7 @@ Route::get('/tentang', function () {
 // route ini sudah dibuat otomatis oleh library dari laravel yang bernama
 // 'laravel ui' dengan tema bootstrap
 Auth::routes([
-    "reset" => false,
+    "reset" => true,
 ]);
 
 // middleware ini berguna untuk mengecek jika ingin mengakses route yang ada didalamnya harus sudah login.
@@ -85,6 +86,9 @@ Route::middleware('auth')->group(function () {
         // route ini berguna untuk mengelola data yang dikirimkan
         // dari halaman profil admin di atas dan diberi nama 'admin.update'
         Route::put('/admin', [AdminController::class, 'update'])->name('admin.update');
+
+        // sama halnya seperti resources users dan katalog diatas tetapi ini untuk mengontrol warna kain.
+        Route::resource('warna', App\Http\Controllers\WarnaController::class)->only('index', 'create', 'store', 'destroy');
     });
 
     // route ini untuk menampilkan halaman profil user dan diberi nama profil.
@@ -117,9 +121,11 @@ Route::middleware('auth')->group(function () {
 
     // route ini untuk menampilakn halaman buat pesanan kostum dan diberi nama 'buat.pesanan-kostum'
     Route::get('/pesan-kostum', function () {
+        // ambil data warna
+        $warna = Warna::all();
         // menampilkan halaman buat-pesanan-kostum
         // halaman ini ada di folder resources/views/buat-pesanan-kostum.blade.php
-        return view('buat-pesanan-kostum');
+        return view('buat-pesanan-kostum', compact('warna'));
     })->name('buat.pesanan-kostum');
 
     // route ini untuk menghadle pesanan kostum user dan menyimpannya kedalam database, diberi nama 'simpan.pesanan-kostum'
