@@ -3,7 +3,7 @@
 @section('content')
     <div class="bg-gold text-white py-3">
         <div class="container py-5">
-            <h1>Selamat datang di <b><i>Iendandy Modiste</i></b></h2>
+            <h1>Selamat datang di Iendandy Modiste</i></b></h2>
                 <h5 class="fw-light">Pilih katalog atau jahit baju dengan desain anda, <a href=""
                         class="text-white">Pesan Kustom <i class="fas fa-fw fa-arrow-right"></i></a></h5>
         </div>

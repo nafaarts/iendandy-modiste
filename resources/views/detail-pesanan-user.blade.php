@@ -139,7 +139,7 @@
                         <table>
                             <tr>
                                 <th>Status pembayaran</th>
-                                <td>{{ $pesanan->konfirmasi_pembayaran ? 'Sudah dibayar' : 'Belum diterima' }}</td>
+                                <td>{{ $pesanan->konfirmasi_pembayaran ? 'Sudah dibayar' : 'Belum Diterima' }}</td>
                             </tr>
                             @if ($pesanan->bukti_transfer)
                                 <tr>

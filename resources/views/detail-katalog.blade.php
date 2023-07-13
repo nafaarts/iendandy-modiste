@@ -4,7 +4,7 @@
     <div class="container py-3">
         <div class="row">
             <div class="col-md-4">
-                <div class="card border-0 p-3 bg-light">
+                <div class="card border-1 p-3 bg-light">
                     <div class="d-flex justify-content-center align-items-start w-100 mb-3 mb-md-0">
                         <img class="img-fluid rounded" src="{{ asset('storage/img/katalog/' . $katalog->gambar) }}"
                             height="500" alt="Katalog">
