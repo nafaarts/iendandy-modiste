@@ -75,7 +75,7 @@
                                     </form>
                                 @endif
 
-                                @if ($pesanan->status_pesanan == 'DIKIRIM')
+                                @if ($pesanan->status_pesanan == 'DIKIRIM' )
                                     {{-- // set status ke SELESAI --}}
                                     <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
                                         onsubmit="return confirm('apakah anda yakin mengkonfirmasi selesai untuk pesanan ini?')"
@@ -88,7 +88,7 @@
                                     </form>
                                 @endif
 
-                                @if ($pesanan->status_pesanan != 'SELESAI')
+                                @if ($pesanan->status_pesanan != 'SELESAI' && $pesanan->status_pesanan != 'DIBATALKAN')
                                     {{-- // set status ke DIBATALKAN --}}
                                     <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
                                         onsubmit="return confirm('apakah anda yakin membatalkan pesanan ini?')"

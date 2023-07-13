@@ -9,7 +9,7 @@
 
         <div class="row mb-3">
             <div class="col-md-3">
-                <div class="card border-0">
+                <div class="card border-0 bg-danger text-white">
                     <div class="card-body">
                         <small class="card-text">
                             Jumlah Pengguna
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card border-0">
+                <div class="card border-0 bg-primary text-white">
                     <div class="card-body">
                         <small class="card-text">
                             Jumlah Katalog
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card border-0">
+                <div class="card border-0 bg-success text-white">
                     <div class="card-body">
                         <small class="card-text">
                             Jumlah Pesanan
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card border-0">
+                <div class="card border-0 bg-warning text-white"> 
                     <div class="card-body">
                         <small class="card-text">
                             Total Transaksi

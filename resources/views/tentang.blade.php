@@ -5,7 +5,7 @@
         <div class="card border-0 bg-light p-3">
             <div class="row">
                 <div class="col-md-3 mb-5">
-                    <img src="https://www.solider.id/sites/default/files/2018-01/WhatsApp%20Image%202018-01-10%20at%2019.32.06.jpeg"
+                    <img src="iendandy.webp"
                         alt="Iendandy Modiste" class="img-fluid rounded">
                 </div>
                 <div class="col-md-9">
