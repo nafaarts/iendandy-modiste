@@ -16,7 +16,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Username</th>
+                                <th>email</th>
                                 <th>No HP</th>
                                 <th>Dibuat</th>
                                 <th>Diubah</th>
@@ -27,7 +27,7 @@
                             @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->username }}</td>
+                                    <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone_number }}</td>
                                     <td>{{ $user->created_at }}</td>
                                     <td>{{ $user->updated_at }}</td>

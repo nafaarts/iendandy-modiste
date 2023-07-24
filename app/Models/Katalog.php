@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Katalog extends Model
 {
@@ -13,18 +14,26 @@ class Katalog extends Model
 
     protected $fillable = [
         'kode_katalog',
-        'stok',
         'gambar',
-        'warna',
         'harga_dengan_kain',
         'harga_tanpa_kain',
-        'warna',
         'deskripsi'
     ];
 
-    public function order()
+    public function stok(): int
     {
-        // return $this->hasMany()
-        return collect([1, 2, 3, 4, 5]);
+        return $this->warna->reduce(function ($total, $item) {
+            return $total += $item->stok;
+        }, 0);
+    }
+
+    public function warna(): HasMany
+    {
+        return $this->hasMany(KatalogWarna::class);
+    }
+
+    public function order(): HasMany
+    {
+        return $this->hasMany(Pesanan::class, 'katalog_id');
     }
 }

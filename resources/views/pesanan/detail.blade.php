@@ -75,7 +75,7 @@
                                     </form>
                                 @endif
 
-                                @if ($pesanan->status_pesanan == 'DIKIRIM' )
+                                @if ($pesanan->status_pesanan == 'DIKIRIM')
                                     {{-- // set status ke SELESAI --}}
                                     <form action="{{ route('pesanan.ubah-status', $pesanan) }}" method="POST"
                                         onsubmit="return confirm('apakah anda yakin mengkonfirmasi selesai untuk pesanan ini?')"
@@ -238,7 +238,7 @@
                                     <td>{{ $pesanan->termasuk_kain ? 'Ya' : 'Tidak' }}</td>
                                 </tr>
 
-                                @isset($pesanan->ukuran['color'])
+                                {{-- @isset($pesanan->ukuran['color'])
                                     <tr>
                                         <th>Warna</th>
                                         <td>
@@ -247,9 +247,34 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @endisset
+                                @endisset --}}
 
                             </table>
+
+                            <style>
+                                .image-warna-container {
+                                    border-radius: 5px;
+                                    gap: 5px;
+                                    padding: 10px;
+                                    border: 1px solid lightgray;
+                                }
+
+                                .image-warna {
+                                    width: 60px;
+                                    height: 60px;
+                                    background-size: cover;
+                                    border-radius: 5px;
+                                }
+                            </style>
+
+                            @if ($pesanan->katalogWarna)
+                                <div class="d-flex align-items-center warna-katalog image-warna-container mt-2">
+                                    <div class="image-warna"
+                                        style="background-image: url({{ asset('storage/img/katalog/' . $pesanan->katalogWarna->gambar) }});">
+                                    </div>
+                                    <h5 class="text-muted mx-2 text-uppercase">{{ $pesanan->katalogWarna->nama }} </h5>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

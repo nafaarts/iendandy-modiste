@@ -31,7 +31,7 @@
             @forelse ($katalog as $item)
                 <div class="col-md-3 col-lg-2 p-2">
                     <a href="{{ route('katalog.show', $item) }}" class="position-relative">
-                        @if ($item->stok == 0)
+                        @if ($item->stok() == 0)
                             <div class="position-absolute bg-danger px-2 m-2 text-white" style="z-index: 9999">
                                 Stok Habis
                             </div>

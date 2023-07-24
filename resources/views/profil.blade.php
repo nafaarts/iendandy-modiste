@@ -26,10 +26,10 @@
                 </div>
                 <div class="row mb-4">
                     <div class="col-6">
-                        <label for="username" class="form-label text-muted">Username</label>
-                        <input type="text" id="username" name="username" class="form-control"
-                            placeholder="Masukan username anda" value="{{ old('username', auth()->user()->username) }}">
-                        @error('username')
+                        <label for="email" class="form-label text-muted">email</label>
+                        <input type="email" id="email" name="email" class="form-control"
+                            placeholder="Masukan email anda" value="{{ old('email', auth()->user()->email) }}">
+                        @error('email')
                             <small class="text-danger">
                                 {{ $message }}
                             </small>

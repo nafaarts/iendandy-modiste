@@ -7,23 +7,33 @@ use App\Http\Controllers\BuatPesananKostumController;
 use App\Http\Controllers\DetailPesananUserController;
 use App\Http\Controllers\EditPasswordController;
 use App\Http\Controllers\EditProfilController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HandlePembayaranController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\KatalogWarnaController;
 use App\Http\Controllers\KonfimasiPembayaranController;
 use App\Http\Controllers\KonfirmasiPesananSelesaiUserController;
 use App\Http\Controllers\KonfirmasiPesananUserController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\TetapkanHargaPesananController;
 use App\Http\Controllers\UbahStatusPesananController;
 use App\Http\Controllers\UbahUkuranPesananController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarnaController;
 use App\Models\Katalog;
 use App\Models\Pesanan;
 use App\Models\Warna;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // route untuk menampilkan halaman utama dan diberi nama 'beranda'.
 Route::get('/', function () {
     // ambil katalog untuk di tampilkan di halaman utama
-    $katalog = Katalog::orderBy('stok', 'DESC')->latest()->get();
+    $katalog = Katalog::latest()->get();
+    // $katalog = Katalog::orderBy('stok', 'DESC')->latest()->get();
+
     // tampilkan halaman yang ada di folder resources/views/beranda.blade.php
     return view('beranda', compact('katalog'));
 })->name('beranda');
@@ -47,6 +57,11 @@ Auth::routes([
     "reset" => true,
 ]);
 
+Route::middleware('guest')->group(function () {
+    Route::get('auth/google', [GoogleController::class, 'signInwithGoogle']);
+    Route::get('callback/google', [GoogleController::class, 'callbackToGoogle']);
+});
+
 // middleware ini berguna untuk mengecek jika ingin mengakses route yang ada didalamnya harus sudah login.
 Route::middleware('auth')->group(function () {
     // route ini menggunakan middleware yang bertujuan untuk mengecek dan memberi izin
@@ -54,18 +69,20 @@ Route::middleware('auth')->group(function () {
     Route::middleware('can:is-admin')->prefix('admin')->group(function () {
         // route ini untuk menampilkan halaman dashboard yang di control dari controller HomeController
         // yang ada di folder App/Http/Controllers/HomeController di method 'index'.
-        Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
         // route ini berguna untuk mengontrol semua data users di beberapa method yang berupa
         // [index, create, store, edit, update, destroy]
         // yang berada di halaman App/Http/Controllers/UserController
-        Route::resource('users', App\Http\Controllers\UserController::class);
+        Route::resource('users', UserController::class);
 
         // sama halnya seperti resources users diatas tetapi ini untuk mengontrol data katalog.
-        Route::resource('katalog', App\Http\Controllers\KatalogController::class);
+        Route::resource('katalog', KatalogController::class);
+
+        Route::resource('katalog.warna', KatalogWarnaController::class)->except('index');
 
         // resource ini berfungsi untuk mengontrol data pesanan dengan mengecualikan method 'create' & 'store'.
-        Route::resource('pesanan', App\Http\Controllers\PesananController::class)->except(['create', 'store']);
+        Route::resource('pesanan', PesananController::class)->except(['create', 'store']);
 
         // route ini untuk mengkonfirmasi pembayaran pesanan user dan diberi nama 'pesanan.konfirmasi-pembayaran'
         // di kontrol di controller KonfimasiPembayaranController yang ada di folder App/Http/Controllers/KonfimasiPembayaranController
@@ -88,7 +105,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/admin', [AdminController::class, 'update'])->name('admin.update');
 
         // sama halnya seperti resources users dan katalog diatas tetapi ini untuk mengontrol warna kain.
-        Route::resource('warna', App\Http\Controllers\WarnaController::class)->only('index', 'create', 'store', 'destroy');
+        Route::resource('warna', WarnaController::class)->only('index', 'create', 'store', 'destroy');
     });
 
     // route ini untuk menampilkan halaman profil user dan diberi nama profil.

@@ -11,7 +11,7 @@
     <title>@yield('title', 'Beranda') - {{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('sm-logo.png') }}" type="image/png">
 
-    @vite('resources/css/app.css')
+    @vite('resources/sass/app.scss')
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('css/fontawsome-free-all.min.css') }}" rel="stylesheet" type="text/css">
@@ -64,8 +64,8 @@
 
 <body>
     <div class="min-vh-100 d-flex flex-column justify-content-between">
-        <nav class="navbar navbar-expand-lg bg-light sticky-top">
-            <div class="container">
+        <nav class="navbar navbar-expand-lg bg-light sticky-top shadow-sm">
+            <div class="container py-2 px-2 md:px-0">
                 <a class="navbar-brand" href="/">
                     <img src="{{ asset('logo.png') }}" alt="Iendandy" height="40">
                 </a>
@@ -110,8 +110,29 @@
             @yield('content')
         </main>
 
-        <footer class="py-3 text-center bg-light">
-            <small>Copyright &copy; Iendandy Modiste {{ date('Y') }}</small>
+
+        <footer class="py-5" style="background: #ebebeb">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" aria-current="page" href="/">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ route('buat.pesanan-kostum') }}">Pesan Kustom</a>
+                </li>
+                @auth
+                    <li class="nav-item">
+                        @can('is-admin')
+                            <a class="nav-link text-dark" href="{{ route('dashboard') }}">Admin</a>
+                        @else
+                            <a class="nav-link text-dark" href="{{ route('profil') }}">Profil Saya</a>
+                        @endcan
+                    </li>
+                @endauth
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="/tentang">Tentang</a>
+                </li>
+            </ul>
+            <p class="text-center text-body-secondary">Copyright &copy; Iendandy Modiste {{ date('Y') }}</p>
         </footer>
     </div>
 

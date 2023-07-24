@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('katalog', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_katalog');
-            $table->string('gambar');
-            $table->integer('harga_dengan_kain');
-            $table->integer('harga_tanpa_kain');
-            $table->text('deskripsi')->nullable();
-            $table->timestamps();
+        Schema::table('users', function ($table) {
+            $table->string('gauth_id')->nullable()->after('password');
+            $table->string('gauth_type')->nullable()->after('gauth_id');
         });
     }
 
@@ -31,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('katalog');
+        Schema::table('users', function ($table) {
+            $table->dropColumn('gauth_id');
+            $table->dropColumn('gauth_type');
+        });
     }
 };

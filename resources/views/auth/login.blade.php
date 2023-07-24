@@ -41,6 +41,11 @@
             <button type="submit" class="btn btn-gold btn-block">
                 LOGIN
             </button>
+
+            <a href="{{ url('auth/google') }}" class="btn btn-danger btn-block">
+                <i class="fab fa-fw fa-google"></i>
+                LOGIN DENGAN GOOGLE
+            </a>
         </form>
         <hr>
         @if (Route::has('password.request'))

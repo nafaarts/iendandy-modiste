@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('katalog', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_katalog');
-            $table->string('gambar');
-            $table->integer('harga_dengan_kain');
-            $table->integer('harga_tanpa_kain');
-            $table->text('deskripsi')->nullable();
-            $table->timestamps();
+        Schema::table('pesanan', function (Blueprint $table) {
+            $table->foreignId('katalog_warna_id')->nullable()->after('katalog_id')->constrained('katalog_warna')->nullOnDelete();
         });
     }
 
@@ -31,6 +25,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('katalog');
+        Schema::table('pesanan', function (Blueprint $table) {
+            $table->dropForeign('pesanan_katalog_warna_id_foreign');
+            $table->dropColumn('katalog_warna_id');
+        });
     }
 };

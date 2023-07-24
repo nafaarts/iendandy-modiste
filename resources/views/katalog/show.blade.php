@@ -21,7 +21,7 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>Jumlah Stok</span>
-                                <h5 class="m-0">{{ $katalog->stok }}</h5>
+                                <h5 class="m-0">{{ $katalog->stok() }}</h5>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>Harga</span>
@@ -39,14 +39,14 @@
                                 <span>Tanggal ditambahkan</span>
                                 <span class="m-0">{{ $katalog->created_at->format('d F Y') }}</span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{-- <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>Warna</span>
                                 <div class="d-flex" style="gap: 5px">
                                     @foreach (json_decode($katalog->warna) as $item)
                                         <div style="height: 20px; width: 20px; background: {{ $item }}"></div>
                                     @endforeach
                                 </div>
-                            </li>
+                            </li> --}}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>Deskripsi</span>
                                 <small style="max-width: 500px"
@@ -55,6 +55,59 @@
                         </ul>
                     </div>
                 </div>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6>Opsi Warna</h6>
+                    <a class="btn btn-sm btn-gold" href="{{ route('katalog.warna.create', $katalog) }}">
+                        <i class="fas fa-fw fa-plus"></i> Tambah Opsi Warna
+                    </a>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Gambar</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Stok</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($katalog->warna as $item)
+                            <tr>
+                                <th scope="row">
+                                    <div class="bg-danger"
+                                        style="height: 40px; width: 40px;
+                                            background-image: url({{ asset('storage/img/katalog/' . $item->gambar) }});
+                                            background-size: cover;
+                                            background-position: center center">
+                                    </div>
+                                </th>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->stok }}</td>
+                                <td>
+                                    <div class="d-flex" style="gap: 5px;">
+                                        <a href="{{ route('katalog.warna.edit', [$katalog, $item]) }}"
+                                            class="btn btn-sm btn-warning">
+                                            <i class="fas fa-fw fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('katalog.warna.destroy', [$katalog, $item]) }}"
+                                            method="POST" onsubmit="return confirm('yakin dihapus?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fas fa-fw fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4">Tidak ada data</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
             <div class="card-footer">
                 <a href="{{ route('katalog.index') }}" class="btn btn-secondary">Kembali</a>

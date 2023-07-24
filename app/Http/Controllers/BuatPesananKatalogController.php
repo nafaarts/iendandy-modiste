@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Katalog;
+use App\Models\KatalogWarna;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BuatPesananKatalogController extends Controller
 {
@@ -17,12 +19,13 @@ class BuatPesananKatalogController extends Controller
     public function __invoke(Request $request, Katalog $katalog)
     {
         // cek apakah stok tersedia
-        if ($katalog->stok == 0) {
+        if ($katalog->stok() == 0) {
             return back()->with('error', 'Mohon maaf stok habis!');
         }
 
         // validasi data pesanan yang di input.
         $request->validate([
+            'warna' => Rule::requiredIf($request->dengan_kain == '1'),
             'alamat' => 'required',
             'catatan' => 'nullable'
         ]);
@@ -48,6 +51,7 @@ class BuatPesananKatalogController extends Controller
             'no_pesanan' => $code,
             'status_pesanan' => 'MENUNGGU_PEMBAYARAN',
             'katalog_id' => $katalog->id,
+            'katalog_warna_id' => $request->warna ?? null,
             'biaya' => $biaya,
             'ukuran' => $request->ukuran,
             'termasuk_kain' => $request->dengan_kain,
@@ -56,9 +60,13 @@ class BuatPesananKatalogController extends Controller
         ]);
 
         // jika pesanan berhasil dibuat, kurangi jumlah stok.
-        if ($pesanan) {
-            $katalog->update(['stok' => $katalog->stok - 1]);
+        if ($request->dengan_kain && $request->warna) {
+            $warna = KatalogWarna::find($request->warna);
+            $warna->update(['stok' => $warna->stok - 1]);
         }
+        // if ($pesanan) {
+        //     $katalog->update(['stok' => $katalog->stok - 1]);
+        // }
 
         // redirect halaman ke halaman detail pesanan dengan pesanan terkait
         // dan kirimkan pesan alert success dipesan.

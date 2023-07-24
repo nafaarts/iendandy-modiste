@@ -11,7 +11,8 @@ class KatalogController extends Controller
     public function index()
     {
         // ambil data katalog di database dan diurutkan berdasarkan stok terbanyak.
-        $katalog = Katalog::orderBy('stok', 'DESC')->latest();
+        $katalog = Katalog::latest();
+        // $katalog = Katalog::orderBy('stok', 'DESC')->latest();
 
         // check jika ada inputan cari
         if (request('cari')) {
@@ -40,11 +41,11 @@ class KatalogController extends Controller
         // validasi data yang diinput.
         $validated = $request->validate([
             'kode_katalog' => 'required|unique:katalog',
-            'stok' => 'required',
+            // 'stok' => 'required',
             'gambar' => 'required',
             'harga_dengan_kain' => 'required|numeric',
             'harga_tanpa_kain' => 'required|numeric',
-            'warna' => 'required',
+            // 'warna' => 'required',
             'deskripsi' => 'nullable'
         ]);
 
@@ -77,11 +78,11 @@ class KatalogController extends Controller
     {
         // validasi data uang di input.
         $validated = $request->validate([
-            'stok' => 'required|numeric',
+            // 'stok' => 'required|numeric',
             'gambar' => 'nullable',
             'harga_dengan_kain' => 'required|numeric',
             'harga_tanpa_kain' => 'required|numeric',
-            'warna' => 'required',
+            // 'warna' => 'required',
             'deskripsi' => 'nullable'
         ]);
 

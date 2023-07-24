@@ -11,7 +11,8 @@
     <title>@yield('title', 'Login') - {{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" href="{{ asset('sm-logo.png') }}" type="image/png">
 
-    @vite('resources/css/app.css')
+    @vite('resources/sass/app.scss')
+
     <!-- Custom fonts for this template-->
     <link href="{{ asset('css/fontawsome-free-all.min.css') }}" rel="stylesheet" type="text/css">
 

@@ -67,7 +67,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label class="form-label">Stok</label>
                                 <input type="number" min="0" name="stok"
                                     class="form-control @error('stok') is-invalid @enderror"
@@ -77,9 +77,9 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div> --}}
 
-                            <style>
+                            {{-- <style>
                                 #color-wrapper {
                                     display: flex;
                                     gap: 5px;
@@ -134,9 +134,9 @@
                                     height: 50px;
                                     border-radius: 0;
                                 }
-                            </style>
+                            </style> --}}
 
-                            <div class="d-flex flex-column">
+                            {{-- <div class="d-flex flex-column">
                                 <label class="form-label">Warna</label>
                                 <div id="color-wrapper">
                                     <div id="color-node-wrapper">
@@ -150,9 +150,9 @@
                                 @enderror
                                 <input type="color" id="color-picker" style="opacity: 0">
                                 <input type="hidden" name="warna" id="warna">
-                            </div>
+                            </div> --}}
 
-                            <script defer>
+                            {{-- <script defer>
                                 let colors = @json(json_decode(old('warna') ?? '[]')) || [];
 
                                 function updateColor() {
@@ -185,6 +185,7 @@
                                         colorNodeWrapper.append(div)
                                     });
                                 }
+
                                 updateColor()
 
                                 const inputColor = document.getElementById('color-picker')
@@ -192,7 +193,7 @@
                                     colors.push(e.target.value);
                                     updateColor()
                                 }
-                            </script>
+                            </script> --}}
 
                             <div class="mb-3">
                                 <label for="deskripsi" class="form-label">Deskripsi</label>

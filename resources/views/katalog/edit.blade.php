@@ -5,7 +5,7 @@
         <div class="card mb-4">
             <div class="card-header py-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-dark">Tambah Katalog</h6>
+                    <h6 class="m-0 font-weight-bold text-dark">Edit Katalog</h6>
                 </div>
             </div>
             <form action="{{ route('katalog.update', $katalog) }}" method="post" enctype="multipart/form-data">
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label class="form-label">Stok</label>
                                 <input type="number" min="0" name="stok"
                                     class="form-control @error('stok') is-invalid @enderror"
@@ -194,7 +194,7 @@
                                     colors.push(e.target.value);
                                     updateColor()
                                 }
-                            </script>
+                            </script> --}}
 
                             <div class="mb-3">
                                 <label for="deskripsi" class="form-label">Deskripsi</label>

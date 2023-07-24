@@ -12,7 +12,7 @@
                 <div class="card border-0 p-3 bg-light">
                     <div class="d-flex justify-content-center align-items-start w-100 mb-3 mb-md-0">
                         <img class="img-fluid rounded" src="{{ asset('storage/img/katalog/' . $katalog->gambar) }}"
-                            height="500" alt="Katalog">
+                            height="500" alt="Katalog" id="gambar-katalog">
                     </div>
                 </div>
             </div>
@@ -128,8 +128,94 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-3" id="opsi-warna">
+                                    <label for="termasuk_kain" class="form-label">Pilihan Kain / Warna</label>
+                                    <style>
+                                        .image-warna-container {
+                                            border-radius: 5px;
+                                            cursor: pointer;
+                                            gap: 5px;
+                                            padding: 3px;
+                                            border: 1px solid lightgray;
+                                        }
+
+                                        .image-warna-container:hover>.image-warna {
+                                            opacity: 0.5;
+                                        }
+
+                                        .image-warna {
+                                            width: 40px;
+                                            height: 40px;
+                                            background-size: cover;
+                                            border-radius: 5px;
+                                        }
+
+                                        .warna-katalog.active {
+                                            border: 1px solid #D5B141;
+                                        }
+                                    </style>
+
+                                    <div class="d-flex flex-wrap" style="gap: 5px;">
+                                        @foreach ($katalog->warna as $item)
+                                            <div class="d-flex align-items-center warna-katalog image-warna-container"
+                                                data-image="{{ asset('storage/img/katalog/' . $item->gambar) }}"
+                                                data-id="{{ $item->id }}" data-stok="{{ $item->stok }}"
+                                                @if ($item->stok == 0) style="background: lightgrey; opacity: 0.3" @endif>
+                                                <div class="image-warna"
+                                                    style="background-image: url({{ asset('storage/img/katalog/' . $item->gambar) }});">
+                                                </div>
+                                                <small class="text-muted mx-2">{{ $item->nama }}
+                                                    ({{ $item->stok }})
+                                                </small>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <input type="hidden" name="warna" id="input-warna" value="">
+
+                                    <script defer>
+                                        const opsiWarna = document.querySelectorAll('.warna-katalog');
+                                        const inputWarna = document.getElementById('input-warna');
+
+                                        let selected = null
+
+                                        function setActive(e) {
+                                            if (e.dataset.stok > 0) {
+                                                opsiWarna.forEach(warna => warna.classList.remove('active'));
+                                                e.classList.add('active')
+                                                setImage()
+                                            }
+                                        }
+
+                                        function setImage() {
+                                            opsiWarna.forEach(warna => {
+                                                if (warna.classList.contains('active')) selected = warna;
+                                                warna.onclick = () => setActive(warna)
+                                            });
+                                            if (selected) {
+                                                document.getElementById('gambar-katalog').src = selected.dataset.image
+                                                inputWarna.value = selected.dataset.id;
+                                                console.log(inputWarna.value)
+                                            }
+                                        }
+
+                                        function resetActive() {
+                                            document.getElementById('gambar-katalog').src = "{{ asset('storage/img/katalog/' . $katalog->gambar) }}";
+                                            opsiWarna.forEach(warna => warna.classList.remove('active'))
+                                            inputWarna.value = ""
+
+                                            console.log(inputWarna.value)
+                                        }
+
+                                        setImage()
+                                    </script>
+                                    @error('warna')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
                                 {{-- // test input warna --}}
-                                <div class="mb-3" id="wrapper-form-warna">
+                                {{-- <div class="mb-3" id="wrapper-form-warna">
                                     <label class="form-label">Warna</label>
 
                                     <div class="d-flex gap-4">
@@ -143,12 +229,12 @@
                                                 </div>
                                             </label>
                                         @endforeach
-                                    </div>
+                                    </div> --}}
 
-                                    {{-- <input type="color" class="form-control" id="warna" name="warna"
+                                {{-- <input type="color" class="form-control" id="warna" name="warna"
                                         placeholder="Masukan warna anda" style="width: 70px; height: 40px"
                                         onchange="setWarna()" value="{{ old('warna', $katalog->warna ?? '#000000') }}"> --}}
-                                </div>
+                                {{-- </div> --}}
 
                                 {{-- <pre id="previews"></pre> --}}
 
@@ -163,8 +249,6 @@
                                 <div class="mb-3">
                                     <label for="catatan" class="form-label">Catatan</label>
                                     <textarea class="form-control" name="catatan" id="catatan" rows="3" placeholder="Tinggalkan catatan"></textarea>
-                                    {{-- <small>* <strong>Harga dapat berubah</strong> apabila ada perubahan/penambahan model
-                                        yang ada di katalog.</small> --}}
                                     @error('catatan')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
@@ -183,7 +267,7 @@
                         </div>
                     </div>
                 </div>
-            </div>å
+            </div>
         </div>
     </div>
 
@@ -216,12 +300,9 @@
         const universalSize = document.getElementsByName('opsi-ukuran-universal')
         const inputUkuran = document.querySelector('#ukuran');
 
-        const wrapperFormWarna = document.querySelector("#wrapper-form-warna");
-        const warnaRadios = document.getElementsByName('warna');
-        // const inputWarna = document.querySelector('#warna');
+        const warnaWrapper = document.getElementById('opsi-warna')
 
-        let withColor = true,
-            color, selectedType, selectedUniversalSize, selectedKostumSize;
+        let selectedType, selectedUniversalSize, selectedKostumSize;
 
         function setPrice(price) {
             totalHarga.textContent = new Intl.NumberFormat('id-ID', {
@@ -235,14 +316,12 @@
                 if (radios[i].checked) {
                     if (radios[i].value === '1') {
                         setPrice("{{ $katalog->harga_dengan_kain }}");
-                        wrapperFormWarna.classList.remove('d-none');
-                        withColor = true;
+                        warnaWrapper.classList.remove('d-none')
                     } else {
                         setPrice("{{ $katalog->harga_tanpa_kain }}");
-                        wrapperFormWarna.classList.add('d-none');
-                        withColor = false;
+                        warnaWrapper.classList.add('d-none')
                     }
-                    updateUkuran()
+                    resetActive()
                     break;
                 }
             }
@@ -252,7 +331,6 @@
             let type = selectedType === 'ukuran-universal' ? 'ukuran-universal' : 'ukuran-kostum';
             let result = {
                 type: type,
-                color: withColor ? color : null,
                 value: type === 'ukuran-universal' ? {
                     size: selectedUniversalSize
                 } : selectedKostumSize
@@ -262,20 +340,6 @@
 
             // previews.textContent = JSON.stringify(result, null, 2)
             inputUkuran.value = JSON.stringify(result)
-        }
-
-        function setWarna() {
-            // color = inputWarna.value;
-            for (let i = 0, length = warnaRadios.length; i < length; i++) {
-                if (warnaRadios[i].checked) {
-                    color = warnaRadios[i].value;
-                    console.log(color)
-                    // updateUkuran()
-                    break;
-                }
-            }
-
-            updateUkuran();
         }
 
         function getUkuranType() {
@@ -310,6 +374,5 @@
         // init
         getType()
         getUkuranType()
-        setWarna()
     </script>
 @endsection
