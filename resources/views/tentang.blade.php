@@ -5,8 +5,7 @@
         <div class="card border-0 bg-light p-3">
             <div class="row">
                 <div class="col-md-3 mb-5">
-                    <img src="iendandy.webp"
-                        alt="Iendandy Modiste" class="img-fluid rounded">
+                    <img src="iendandy-about.jpg" alt="Iendandy Modiste" class="img-fluid rounded">
                 </div>
                 <div class="col-md-9">
                     <h3>Tentang Penjahit</h3>
