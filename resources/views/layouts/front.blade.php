@@ -112,7 +112,7 @@
 
 
         <footer class="py-5" style="background: #ebebeb">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            {{-- <ul class="nav justify-content-center border-bottom pb-3 mb-3">
                 <li class="nav-item">
                     <a class="nav-link text-dark" aria-current="page" href="/">Beranda</a>
                 </li>
@@ -131,7 +131,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="/tentang">Tentang</a>
                 </li>
-            </ul>
+            </ul> --}}
             <p class="text-center text-body-secondary">Copyright &copy; Iendandy Modiste {{ date('Y') }}</p>
         </footer>
     </div>
@@ -139,7 +139,7 @@
     {{-- whatsapp --}}
     <div class="sc-whatsapp position-fixed bg-success rounded-circle d-flex justify-content-center align-items-center"
         style="bottom: 25px; right: 25px; height: 70px; width: 70px">
-        <a href="https://wa.me/6285321379190" target="_blank" class="text-white">
+        <a href="https://wa.me/6289502194596" target="_blank" class="text-white">
             <h2 class="m-0"><i class="fab fa-fw fa-whatsapp"></i></h2>
         </a>
     </div>

@@ -33,7 +33,7 @@
         }
 
         .slide-image {
-            height: 700px;
+            height: 500px;
             background-position: center center;
             background-size: cover;
         }
@@ -73,11 +73,11 @@
                         <div class="slide-background"></div>
                         <div class="container d-flex align-items-center h-100">
                             <div style="z-index: 999">
-                                <h1 class="fw-bold">Example headline.</h1>
-                                <p class="opacity-75">Some representative placeholder content for the first slide of the
-                                    carousel.
+                                <h1 class="fw-bold">Iendandy Modiste</h1>
+                                <p class="opacity-75">Kunjungi juga instagram Iendandy Modiste <i>@iendandy</i>
                                 </p>
-                                <a class="btn btn-gold pt-1 mt-3" href="#">Sign up today</a>
+                                <a class="btn btn-gold pt-1 mt-3" href="https://www.instagram.com/iendandy/"
+                                    target="_blank">Kunjungi Sekarang</a>
                             </div>
                         </div>
                     </div>
@@ -85,13 +85,11 @@
                 <li class="splide__slide">
                     <div class="slide-image" style="background-image: url({{ asset('slides/2.jpg') }});">
                         <div class="slide-background"></div>
-                        <div class="container d-flex align-items-center justify-content-end h-100">
+                        <div class="container d-flex align-items-center justify-content-end h-100 text-white">
                             <div style="z-index: 999">
-                                <h1 class="fw-bold">Example headline.</h1>
-                                <p class="opacity-75">Some representative placeholder content for the first slide of the
-                                    carousel.
-                                </p>
-                                <a class="btn btn-gold pt-1 mt-3" href="#">Sign up today</a>
+                                <h1 class="fw-bold">Iendandy Modiste</h1>
+                                <p class="opacity-75">Pesan jahitan baju dengan design anda.</p>
+                                <a class="btn btn-gold pt-1 mt-3" href="{{ route('buat.pesanan-kostum') }}">Pesan Kustom</a>
                             </div>
                         </div>
                     </div>
@@ -101,25 +99,9 @@
                         <div class="slide-background"></div>
                         <div class="container d-flex align-items-center h-100">
                             <div style="z-index: 999">
-                                <h1 class="fw-bold">Example headline.</h1>
-                                <p class="opacity-75">Some representative placeholder content for the first slide of the
-                                    carousel.
-                                </p>
-                                <a class="btn btn-gold pt-1 mt-3" href="#">Sign up today</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="splide__slide">
-                    <div class="slide-image" style="background-image: url({{ asset('slides/4.jpg') }});">
-                        <div class="slide-background"></div>
-                        <div class="container d-flex align-items-center justify-content-end h-100">
-                            <div style="z-index: 999">
-                                <h1 class="fw-bold">Example headline.</h1>
-                                <p class="opacity-75">Some representative placeholder content for the first slide of the
-                                    carousel.
-                                </p>
-                                <a class="btn btn-gold pt-1 mt-3" href="#">Sign up today</a>
+                                <h1 class="fw-bold">Iendandy Modiste</h1>
+                                <p class="opacity-75">Mari menjadi lebih dengan melaui kontak dibawah ini.</p>
+                                <a class="btn btn-gold pt-1 mt-3" href="tel:089502194596">Hubungi Sekarang</a>
                             </div>
                         </div>
                     </div>
@@ -128,9 +110,8 @@
         </div>
     </section>
 
-    <div class="container py-4 mb-3">
+    <div class="container py-4 my-3">
         <h5 class="text-gold">Katalog Iendandy</h5>
-
         <hr>
         @if ($katalog)
             <section class="splide" id="splide_products" aria-labelledby="carousel-heading">

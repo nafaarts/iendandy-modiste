@@ -197,7 +197,7 @@
                             <td>{{ $pesanan->termasuk_kain ? 'Ya' : 'Tidak' }}</td>
                         </tr>
 
-                        {{-- @isset($pesanan->ukuran['color'])
+                        @isset($pesanan->ukuran['color'])
                             <tr>
                                 <th>Warna</th>
                                 <td>
@@ -205,7 +205,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endisset --}}
+                        @endisset
 
                     </table>
                     <style>
