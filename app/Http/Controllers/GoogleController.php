@@ -36,7 +36,8 @@ class GoogleController extends Controller
                 return redirect('/');
             }
         } catch (Exception $e) {
-            echo "terjadi kesalahan...";
+            echo $e->getMessage();
+            // echo "terjadi kesalahan...";
         }
     }
 }
