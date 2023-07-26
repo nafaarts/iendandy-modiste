@@ -39,12 +39,12 @@
             </div>
 
             <button type="submit" class="btn btn-gold btn-block">
-                LOGIN
+                MASUK
             </button>
-
+            <div class="separator my-2">atau</div>
             <a href="{{ url('auth/google') }}" class="btn btn-danger btn-block">
                 <i class="fab fa-fw fa-google"></i>
-                LOGIN DENGAN GOOGLE
+                MASUK DENGAN GOOGLE
             </a>
         </form>
         <hr>

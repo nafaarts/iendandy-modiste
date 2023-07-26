@@ -18,6 +18,10 @@ class BuatPesananKatalogController extends Controller
      */
     public function __invoke(Request $request, Katalog $katalog)
     {
+        if (auth()->user()->phone_number == null) {
+            return back()->with('error', 'Sebelum memulai pemesanan, mohon daftarkan nomor handphone anda!');
+        }
+
         // cek apakah stok tersedia
         if ($katalog->stok() == 0) {
             return back()->with('error', 'Mohon maaf stok habis!');

@@ -1,5 +1,7 @@
 @extends('layouts.guest')
 
+@section('title', 'Registrasi')
+
 @section('content')
     <div class="card py-5 px-4 m-2 w-100" style="max-width: 600px">
         <div class="text-center">
@@ -59,6 +61,11 @@
             <button type="submit" class="btn btn-gold btn-block">
                 REGISTRASI
             </button>
+            <div class="separator my-2">atau</div>
+            <a href="{{ url('auth/google') }}?utils=register" class="btn btn-danger btn-block">
+                <i class="fab fa-fw fa-google"></i>
+                REGISTER DENGAN GOOGLE
+            </a>
         </form>
         <hr>
         @if (Route::has('password.request'))

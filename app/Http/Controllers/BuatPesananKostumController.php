@@ -15,6 +15,10 @@ class BuatPesananKostumController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if (auth()->user()->phone_number == null) {
+            return back()->with('error', 'Sebelum memulai pemesanan, mohon daftarkan nomor handphone anda!');
+        }
+
         // validasi data pesanan yang di input.
         $request->validate([
             'foto_katalog' => 'required|image',

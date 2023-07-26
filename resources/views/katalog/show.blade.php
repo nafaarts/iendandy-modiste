@@ -59,7 +59,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6>Opsi Warna</h6>
                     <a class="btn btn-sm btn-gold" href="{{ route('katalog.warna.create', $katalog) }}">
-                        <i class="fas fa-fw fa-plus"></i> Tambah Opsi Warna
+                        <i class="fas fa-fw fa-plus"></i> Tambah Stok dan Opsi Warna
                     </a>
                 </div>
                 <table class="table table-striped">

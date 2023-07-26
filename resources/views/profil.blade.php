@@ -4,7 +4,13 @@
     <div class="container py-3">
         @if (session('success'))
             <div class="alert alert-success" role="alert">
-                {{ session('success') }}
+                {!! session('success') !!}
+            </div>
+        @endif
+
+        @if (auth()->user()->phone_number == null && !session()->has('success'))
+            <div class="alert alert-warning" role="alert">
+                Sebelum memulai pesanan, Mohon lengkapi <strong>nomor handphone</strong> anda.
             </div>
         @endif
 
@@ -37,7 +43,10 @@
                     </div>
                     <div class="col-6">
                         <label for="phone_number" class="form-label text-muted">Nomor Telepon</label>
-                        <input type="text" id="phone_number" name="phone_number" class="form-control"
+                        <input type="text" id="phone_number" name="phone_number" @class([
+                            'form-control',
+                            'border border-danger' => auth()->user()->phone_number == null,
+                        ])
                             placeholder="Masukan Nomor Telepon anda"
                             value="{{ old('phone_number', auth()->user()->phone_number) }}">
                         @error('phone_number')

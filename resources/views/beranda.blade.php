@@ -100,7 +100,7 @@
                         <div class="container d-flex align-items-center h-100">
                             <div style="z-index: 999">
                                 <h1 class="fw-bold">Iendandy Modiste</h1>
-                                <p class="opacity-75">Mari menjadi lebih dengan melaui kontak dibawah ini.</p>
+                                <p class="opacity-75">Mari memulai diskusi dengan menghubungi kontak dibawah ini.</p>
                                 <a class="btn btn-gold pt-1 mt-3" href="tel:089502194596">Hubungi Sekarang</a>
                             </div>
                         </div>

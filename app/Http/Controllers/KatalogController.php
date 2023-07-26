@@ -56,10 +56,10 @@ class KatalogController extends Controller
         $validated['gambar'] = $request->gambar->hashName();
 
         // masukan data yang telah diinput ke database katalog.
-        Katalog::create($validated);
+        $katalog = Katalog::create($validated);
 
-        // kembalikan halaman ke halaman index katalog dengan pesan sukses.
-        return redirect()->route('katalog.index')->with('success', 'Katalog berhasil ditambahkan!');
+        // kembalikan halaman ke halaman show katalog dengan pesan sukses.
+        return redirect()->route('katalog.show', $katalog)->with('success', 'Katalog berhasil ditambahkan!');
     }
 
     public function edit(Katalog $katalog)
@@ -103,7 +103,7 @@ class KatalogController extends Controller
         $katalog->update($validated);
 
         // kembalikan ke halaman index katalog dengan melampirkna pesan sukses.
-        return redirect()->route('katalog.index')->with('success', 'Katalog berhasil diubah!');
+        return redirect()->route('katalog.show', $katalog)->with('success', 'Katalog berhasil diubah, silahkan tambahkan stok dan opsi warna!');
     }
 
     public function destroy(Katalog $katalog)
