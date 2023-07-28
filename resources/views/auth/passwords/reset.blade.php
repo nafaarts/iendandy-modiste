@@ -13,15 +13,19 @@
             <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="form-group">
+                <input type="email" name="email" value="{{ request('email') }}" class="form-control" readonly>
+            </div>
+
+            {{-- <div class="form-group">
                 <input type="email" name="email" value="{{ old('email') }}"
                     class="form-control @error('email') is-invalid @enderror" id="exampleInputEmail"
                     placeholder="{{ __('Email Address') }}">
-            </div>
-            @error('email')
+            </div> --}}
+            {{-- @error('email')
                 <div class="form-group custom-control">
                     <label class="">{{ $message }}</label>
                 </div>
-            @enderror
+            @enderror --}}
 
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
