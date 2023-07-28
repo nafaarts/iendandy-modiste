@@ -136,6 +136,10 @@
                                     <td>{{ $pesanan->user->name }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Kontak Kostumer</th>
+                                    <td>{{ $pesanan->user->phone_number }}</td>
+                                </tr>
+                                <tr>
                                     <th>Status Pesanan</th>
                                     <td>{{ $pesanan->status_pesanan }}</td>
                                 </tr>
