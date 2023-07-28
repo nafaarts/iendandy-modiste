@@ -42,7 +42,7 @@ class GoogleController extends Controller
                     ]);
 
                     Auth::login($newUser);
-                    return redirect()->route('profil')->with('success', 'Hai <strong>' . $user->name . '</strong>, Terima kasih telah mendaftar pada toko kami. Sebelum memulai pesanan, mohon lengkapi <strong>nomor handphone</strong> nya ya..');
+                    return redirect()->route('profil')->with('success', 'Hai <strong>' . $user->name . '</strong>, Terima kasih telah mendaftar pada toko kami. Sebelum memulai pesanan, mohon lengkapi <strong>nomor handphone</strong> anda.');
                 } else {
                     return redirect()->route($utils ?? 'login')->withErrors([
                         'email' => [trans('auth.failed')],
